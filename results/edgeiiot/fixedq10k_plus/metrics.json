@@ -1,0 +1,101 @@
+{
+  "args": {
+    "dataset": "edgeiiot",
+    "name": "fixedq10k_plus",
+    "order": null,
+    "variant": "clean",
+    "classes": "ddos",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed_q10k",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 10000,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000
+  },
+  "metrics_total": {
+    "VP": 2526,
+    "VN": 11257839,
+    "FP": 786,
+    "FN": 8376856,
+    "accuracy": 0.5733965264397757,
+    "precision": 0.7626811594202898,
+    "recall": 0.00030145421225574867,
+    "f1": 0.0006026702155655448
+  },
+  "metrics_post_warmup": {
+    "VP": 2526,
+    "VN": 11207839,
+    "FP": 786,
+    "FN": 8376856,
+    "accuracy": 0.5723075859631865,
+    "precision": 0.7626811594202898,
+    "recall": 0.00030145421225574867,
+    "f1": 0.0006026702155655448
+  },
+  "score_metrics": {
+    "roc_auc": 0.29452021044942506,
+    "pr_auc": 0.33845177290884687
+  },
+  "per_type_post_warmup": {
+    "DDoS_HTTP": {
+      "n": 229142,
+      "alarm_rate": 0.0
+    },
+    "DDoS_ICMP": {
+      "n": 2914356,
+      "alarm_rate": 0.0
+    },
+    "DDoS_TCP": {
+      "n": 2020152,
+      "alarm_rate": 0.0012504009599277677
+    },
+    "DDoS_UDP": {
+      "n": 3215732,
+      "alarm_rate": 0.0
+    },
+    "Normal": {
+      "n": 11208625,
+      "alarm_rate": 7.012456924912735e-05
+    }
+  },
+  "elapsed_s": 877.0413633999415,
+  "adwin_changes": 2789,
+  "paper": {
+    "VP": 6130307,
+    "VN": 21966507,
+    "FP": 574072,
+    "FN": 2249075,
+    "accuracy": 0.9087,
+    "precision": 0.9144,
+    "recall": 0.7316,
+    "f1": 0.8124,
+    "elapsed_s": 14893.37
+  }
+}

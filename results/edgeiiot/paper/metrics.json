@@ -1,0 +1,62 @@
+{
+  "args": {
+    "dataset": "edgeiiot",
+    "name": "paper",
+    "order": null,
+    "variant": "paper",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null
+  },
+  "norm": "none",
+  "config": {
+    "hst_window": 100000,
+    "hst_trees": 80,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 6.0,
+    "tau_min": 0.4,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "warmup": 50000
+  },
+  "metrics_total": {
+    "VP": 6130307,
+    "VN": 22511659,
+    "FP": 28920,
+    "FN": 2249075,
+    "accuracy": 0.9263260713685894,
+    "precision": 0.995304605594176,
+    "recall": 0.7315941676844426,
+    "f1": 0.8433141024701881
+  },
+  "metrics_post_warmup": {
+    "VP": 6130307,
+    "VN": 22461659,
+    "FP": 28920,
+    "FN": 2249075,
+    "accuracy": 0.9262067418873642,
+    "precision": 0.995304605594176,
+    "recall": 0.7315941676844426,
+    "f1": 0.8433141024701881
+  },
+  "elapsed_s": 1264.9594278999139,
+  "adwin_changes": 22311,
+  "paper": {
+    "VP": 6130307,
+    "VN": 21966507,
+    "FP": 574072,
+    "FN": 2249075,
+    "accuracy": 0.9087,
+    "precision": 0.9144,
+    "recall": 0.7316,
+    "f1": 0.8124,
+    "elapsed_s": 14893.37
+  }
+}

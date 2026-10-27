@@ -1,0 +1,23 @@
+run=all_fixed_plus dataset=aseados features=plus preset=fixed order=None variant=paper classes=all norm=none n=457044 ataques=196247
+aquecimento: 20711 ataques nas primeiras 50000 instâncias
+atributos: ['sport', 'dport', 'proto', 'length', 'rate_all', 'rate_dst'] (ADWIN em length)
+config: {'hst_window': 250, 'hst_trees': 25, 'hst_depth': 15, 'hst_size_limit': 0.1, 'seed': 1, 'adwin_delta': 0.001, 'use_drift_flag': True, 'alpha': 5.189028910303929, 'tau_min': 0.5, 'tau_max': None, 'mad_window': 5000, 'n_min': 1000, 'warmup': 50000}
+ADWIN: 524 mudanças detectadas
+  50000/457044 instâncias  (6.5s)
+  100000/457044 instâncias  (11.1s)
+  150000/457044 instâncias  (15.5s)
+  200000/457044 instâncias  (19.5s)
+  250000/457044 instâncias  (24.0s)
+  300000/457044 instâncias  (27.1s)
+  350000/457044 instâncias  (30.2s)
+  400000/457044 instâncias  (31.5s)
+  450000/457044 instâncias  (33.9s)
+total (convenção do artigo): VP=77826 VN=210054 FP=50743 FN=118421 acc=0.6299 prec=0.6053 rec=0.3966 f1=0.4792
+pós-aquecimento: VP=77826 VN=180765 FP=50743 FN=97710 acc=0.6353 prec=0.6053 rec=0.4434 f1=0.5118
+scores pós-aquecimento: AUC-ROC=0.4668 PR-AUC=0.4248
+  Benign                   n=   231,508  alarmes= 21.92%
+  Bot                      n=     9,090  alarmes= 99.60%
+  DDoS                     n=    51,465  alarmes= 85.22%
+  Dos                      n=   107,061  alarmes= 16.27%
+  Prob                     n=     7,920  alarmes= 94.56%
+tempo: 34.4s (artigo: 189.02s)

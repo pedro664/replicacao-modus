@@ -1,0 +1,10 @@
+# Datasets: baixar das fontes originais (ver README)
+data/
+
+# Ambiente
+.venv/
+__pycache__/
+*.pyc
+
+# Scores por instância (até centenas de MB por rodada; regeneráveis com run.py)
+results/**/scores.csv.gz

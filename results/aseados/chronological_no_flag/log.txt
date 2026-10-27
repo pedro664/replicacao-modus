@@ -1,0 +1,13 @@
+run=chronological_no_flag order=chronological norm=global n=312262 ataques=51465
+aquecimento: 50000 ataques nas primeiras 50000 instâncias
+config: {'hst_window': 2500, 'hst_trees': 150, 'hst_depth': 12, 'hst_size_limit': 0.1, 'seed': 1, 'adwin_delta': 0.001, 'use_drift_flag': False, 'alpha': 8.0, 'tau_min': 0.75, 'tau_max': 0.95, 'mad_window': 5000, 'n_min': 1000, 'warmup': 50000}
+ADWIN: 0 mudanças detectadas
+  50000/312262 instâncias  (21.2s)
+  100000/312262 instâncias  (44.9s)
+  150000/312262 instâncias  (71.6s)
+  200000/312262 instâncias  (98.3s)
+  250000/312262 instâncias  (123.8s)
+  300000/312262 instâncias  (149.0s)
+total (convenção do artigo): VP=0 VN=260155 FP=642 FN=51465 acc=0.8331 prec=0.0000 rec=0.0000 f1=0.0000
+pós-aquecimento: VP=0 VN=260155 FP=642 FN=1465 acc=0.9920 prec=0.0000 rec=0.0000 f1=0.0000
+tempo: 152.1s (artigo: 189.02s)

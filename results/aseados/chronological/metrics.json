@@ -1,0 +1,59 @@
+{
+  "args": {"dataset": "aseados", 
+    "name": "chronological",
+    "order": "chronological",
+    "norm": "global",
+    "size_col": "Pkt Size Avg",
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000
+  },
+  "config": {
+    "hst_window": 2500,
+    "hst_trees": 150,
+    "hst_depth": 12,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 8.0,
+    "tau_min": 0.75,
+    "tau_max": 0.95,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "warmup": 50000
+  },
+  "metrics_total": {
+    "VP": 0,
+    "VN": 260508,
+    "FP": 289,
+    "FN": 51465,
+    "accuracy": 0.8342609731571565,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  },
+  "metrics_post_warmup": {
+    "VP": 0,
+    "VN": 260508,
+    "FP": 289,
+    "FN": 1465,
+    "accuracy": 0.9933120314799704,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  },
+  "elapsed_s": 161.53933669999242,
+  "adwin_changes": 40,
+  "paper": {
+    "VP": 51465,
+    "VN": 260406,
+    "FP": 391,
+    "FN": 0,
+    "accuracy": 0.9987,
+    "precision": 0.9925,
+    "recall": 1.0,
+    "f1": 0.9962,
+    "elapsed_s": 189.02
+  }
+}

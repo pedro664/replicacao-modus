@@ -1,0 +1,101 @@
+{
+  "args": {
+    "dataset": "aseados",
+    "name": "all_fixedq_plus",
+    "order": null,
+    "variant": "paper",
+    "classes": "all",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed_q",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "proto",
+    "length",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000
+  },
+  "metrics_total": {
+    "VP": 577,
+    "VN": 260301,
+    "FP": 496,
+    "FN": 195670,
+    "accuracy": 0.5707940592153053,
+    "precision": 0.5377446411929171,
+    "recall": 0.002940172333844594,
+    "f1": 0.005848368132981958
+  },
+  "metrics_post_warmup": {
+    "VP": 577,
+    "VN": 231012,
+    "FP": 496,
+    "FN": 174959,
+    "accuracy": 0.5689532335570602,
+    "precision": 0.5377446411929171,
+    "recall": 0.003287075015951144,
+    "f1": 0.00653420833592852
+  },
+  "score_metrics": {
+    "roc_auc": 0.19440942296429847,
+    "pr_auc": 0.2926467687485815
+  },
+  "per_type_post_warmup": {
+    "Benign": {
+      "n": 231508,
+      "alarm_rate": 0.0021424745581146223
+    },
+    "Bot": {
+      "n": 9090,
+      "alarm_rate": 0.0
+    },
+    "DDoS": {
+      "n": 51465,
+      "alarm_rate": 0.0
+    },
+    "Dos": {
+      "n": 107061,
+      "alarm_rate": 0.0053894508738009175
+    },
+    "Prob": {
+      "n": 7920,
+      "alarm_rate": 0.0
+    }
+  },
+  "elapsed_s": 73.45220359996893,
+  "adwin_changes": 524,
+  "paper": {
+    "VP": 51465,
+    "VN": 260406,
+    "FP": 391,
+    "FN": 0,
+    "accuracy": 0.9987,
+    "precision": 0.9925,
+    "recall": 1.0,
+    "f1": 0.9962,
+    "elapsed_s": 189.02
+  }
+}

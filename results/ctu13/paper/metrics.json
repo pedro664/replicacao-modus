@@ -1,0 +1,61 @@
+{
+  "args": {
+    "dataset": "ctu13",
+    "name": "paper",
+    "order": null,
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null
+  },
+  "norm": "none",
+  "config": {
+    "hst_window": 100000,
+    "hst_trees": 80,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 6.0,
+    "tau_min": 0.4,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "warmup": 50000
+  },
+  "metrics_total": {
+    "VP": 2029718,
+    "VN": 2077314,
+    "FP": 2228763,
+    "FN": 599,
+    "accuracy": 0.6481655023346086,
+    "precision": 0.4766295775418512,
+    "recall": 0.9997049721792213,
+    "f1": 0.6455026858868738
+  },
+  "metrics_post_warmup": {
+    "VP": 2029718,
+    "VN": 2027315,
+    "FP": 2228763,
+    "FN": 598,
+    "accuracy": 0.6453672805108939,
+    "precision": 0.4766295775418512,
+    "recall": 0.9997054645680771,
+    "f1": 0.6455027885301434
+  },
+  "elapsed_s": 1852.589265699964,
+  "adwin_changes": 3056,
+  "paper": {
+    "VP": 2088551,
+    "VN": 3440093,
+    "FP": 6796,
+    "FN": 800954,
+    "accuracy": 0.8725,
+    "precision": 0.9967,
+    "recall": 0.7228,
+    "f1": 0.8379,
+    "elapsed_s": 2895.26
+  }
+}

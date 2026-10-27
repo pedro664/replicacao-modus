@@ -1,0 +1,99 @@
+{
+  "args": {
+    "dataset": "edgeiiot",
+    "name": "fixedq_online",
+    "order": null,
+    "variant": "clean",
+    "classes": "ddos",
+    "features": "online",
+    "rate_window": 1.0,
+    "preset": "fixed_q",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000
+  },
+  "metrics_total": {
+    "VP": 0,
+    "VN": 11256288,
+    "FP": 2337,
+    "FN": 8379382,
+    "accuracy": 0.5731889188144194,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  },
+  "metrics_post_warmup": {
+    "VP": 0,
+    "VN": 11206288,
+    "FP": 2337,
+    "FN": 8379382,
+    "accuracy": 0.57209944840228,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0
+  },
+  "score_metrics": {
+    "roc_auc": 0.04027966763004535,
+    "pr_auc": 0.2706308267934386
+  },
+  "per_type_post_warmup": {
+    "DDoS_HTTP": {
+      "n": 229142,
+      "alarm_rate": 0.0
+    },
+    "DDoS_ICMP": {
+      "n": 2914356,
+      "alarm_rate": 0.0
+    },
+    "DDoS_TCP": {
+      "n": 2020152,
+      "alarm_rate": 0.0
+    },
+    "DDoS_UDP": {
+      "n": 3215732,
+      "alarm_rate": 0.0
+    },
+    "Normal": {
+      "n": 11208625,
+      "alarm_rate": 0.00020850015055370308
+    }
+  },
+  "elapsed_s": 1375.8414857999887,
+  "adwin_changes": 2789,
+  "paper": {
+    "VP": 6130307,
+    "VN": 21966507,
+    "FP": 574072,
+    "FN": 2249075,
+    "accuracy": 0.9087,
+    "precision": 0.9144,
+    "recall": 0.7316,
+    "f1": 0.8124,
+    "elapsed_s": 14893.37
+  }
+}

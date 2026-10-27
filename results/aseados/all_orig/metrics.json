@@ -1,0 +1,98 @@
+{
+  "args": {
+    "dataset": "aseados",
+    "name": "all_orig",
+    "order": null,
+    "variant": "paper",
+    "classes": "all",
+    "features": "paper",
+    "rate_window": 1.0,
+    "preset": null,
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null
+  },
+  "norm": "global",
+  "features": [
+    "sport",
+    "dport",
+    "proto",
+    "length"
+  ],
+  "config": {
+    "hst_window": 2500,
+    "hst_trees": 150,
+    "hst_depth": 12,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 8.0,
+    "tau_min": 0.75,
+    "tau_max": 0.95,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "warmup": 50000
+  },
+  "metrics_total": {
+    "VP": 582,
+    "VN": 260795,
+    "FP": 2,
+    "FN": 195665,
+    "accuracy": 0.5718858578167528,
+    "precision": 0.9965753424657534,
+    "recall": 0.0029656504303250497,
+    "f1": 0.005913702617981924
+  },
+  "metrics_post_warmup": {
+    "VP": 582,
+    "VN": 231506,
+    "FP": 2,
+    "FN": 174954,
+    "accuracy": 0.5701791452521103,
+    "precision": 0.9965753424657534,
+    "recall": 0.00331555920153131,
+    "f1": 0.006609130138541904
+  },
+  "score_metrics": {
+    "roc_auc": 0.16531054056836092,
+    "pr_auc": 0.29973463192233796
+  },
+  "per_type_post_warmup": {
+    "Benign": {
+      "n": 231508,
+      "alarm_rate": 8.639010314978316e-06
+    },
+    "Bot": {
+      "n": 9090,
+      "alarm_rate": 0.0
+    },
+    "DDoS": {
+      "n": 51465,
+      "alarm_rate": 0.0
+    },
+    "Dos": {
+      "n": 107061,
+      "alarm_rate": 0.005436153221060891
+    },
+    "Prob": {
+      "n": 7920,
+      "alarm_rate": 0.0
+    }
+  },
+  "elapsed_s": 39.509590399917215,
+  "adwin_changes": 47,
+  "paper": {
+    "VP": 51465,
+    "VN": 260406,
+    "FP": 391,
+    "FN": 0,
+    "accuracy": 0.9987,
+    "precision": 0.9925,
+    "recall": 1.0,
+    "f1": 0.9962,
+    "elapsed_s": 189.02
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "args": {
+    "dataset": "aseados",
+    "name": "fixedq_paper",
+    "order": null,
+    "variant": "paper",
+    "classes": "ddos",
+    "features": "paper",
+    "rate_window": 1.0,
+    "preset": "fixed_q",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null
+  },
+  "norm": "global",
+  "features": [
+    "sport",
+    "dport",
+    "proto",
+    "length"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000
+  },
+  "metrics_total": {
+    "VP": 51465,
+    "VN": 260293,
+    "FP": 504,
+    "FN": 0,
+    "accuracy": 0.9983859707553273,
+    "precision": 0.9903019107544883,
+    "recall": 1.0,
+    "f1": 0.9951273275712048
+  },
+  "metrics_post_warmup": {
+    "VP": 51465,
+    "VN": 210293,
+    "FP": 504,
+    "FN": 0,
+    "accuracy": 0.9980782576202424,
+    "precision": 0.9903019107544883,
+    "recall": 1.0,
+    "f1": 0.9951273275712048
+  },
+  "score_metrics": {
+    "roc_auc": 0.9999193536909918,
+    "pr_auc": 0.9996697874985432
+  },
+  "per_type_post_warmup": {
+    "Benign": {
+      "n": 210797,
+      "alarm_rate": 0.0023909258670664194
+    },
+    "DDoS": {
+      "n": 51465,
+      "alarm_rate": 1.0
+    }
+  },
+  "elapsed_s": 44.00140169984661,
+  "adwin_changes": 32,
+  "paper": {
+    "VP": 51465,
+    "VN": 260406,
+    "FP": 391,
+    "FN": 0,
+    "accuracy": 0.9987,
+    "precision": 0.9925,
+    "recall": 1.0,
+    "f1": 0.9962,
+    "elapsed_s": 189.02
+  }
+}

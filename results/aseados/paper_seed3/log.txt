@@ -1,0 +1,13 @@
+run=paper_seed3 order=paper norm=global n=312262 ataques=51465
+aquecimento: 0 ataques nas primeiras 50000 instâncias
+config: {'hst_window': 2500, 'hst_trees': 150, 'hst_depth': 12, 'hst_size_limit': 0.1, 'seed': 3, 'adwin_delta': 0.001, 'use_drift_flag': True, 'alpha': 8.0, 'tau_min': 0.75, 'tau_max': 0.95, 'mad_window': 5000, 'n_min': 1000, 'warmup': 50000}
+ADWIN: 32 mudanças detectadas
+  50000/312262 instâncias  (28.6s)
+  100000/312262 instâncias  (58.3s)
+  150000/312262 instâncias  (85.1s)
+  200000/312262 instâncias  (111.8s)
+  250000/312262 instâncias  (137.0s)
+  300000/312262 instâncias  (159.7s)
+total (convenção do artigo): VP=51465 VN=256793 FP=4004 FN=0 acc=0.9872 prec=0.9278 rec=1.0000 f1=0.9626
+pós-aquecimento: VP=51465 VN=206793 FP=4004 FN=0 acc=0.9847 prec=0.9278 rec=1.0000 f1=0.9626
+tempo: 164.8s (artigo: 189.02s)

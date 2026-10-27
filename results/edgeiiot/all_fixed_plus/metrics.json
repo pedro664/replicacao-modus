@@ -1,0 +1,141 @@
+{
+  "args": {
+    "dataset": "edgeiiot",
+    "name": "all_fixed_plus",
+    "order": null,
+    "variant": "all",
+    "classes": "ddos",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": null,
+    "warmup": 50000
+  },
+  "metrics_total": {
+    "VP": 8670912,
+    "VN": 10749374,
+    "FP": 509251,
+    "FN": 1194956,
+    "accuracy": 0.9193255431029753,
+    "precision": 0.9445270198361402,
+    "recall": 0.8788797904046557,
+    "f1": 0.9105216724681379
+  },
+  "metrics_post_warmup": {
+    "VP": 8670912,
+    "VN": 10699374,
+    "FP": 509251,
+    "FN": 1194956,
+    "accuracy": 0.9191341400241515,
+    "precision": 0.9445270198361402,
+    "recall": 0.8788797904046557,
+    "f1": 0.9105216724681379
+  },
+  "score_metrics": {
+    "roc_auc": 0.9250414237347996,
+    "pr_auc": 0.9288642052850347
+  },
+  "per_type_post_warmup": {
+    "Backdoor": {
+      "n": 24914,
+      "alarm_rate": 0.03271253110700811
+    },
+    "DDoS_HTTP": {
+      "n": 229142,
+      "alarm_rate": 1.0
+    },
+    "DDoS_ICMP": {
+      "n": 2914356,
+      "alarm_rate": 1.0
+    },
+    "DDoS_TCP": {
+      "n": 2020152,
+      "alarm_rate": 1.0
+    },
+    "DDoS_UDP": {
+      "n": 3215732,
+      "alarm_rate": 1.0
+    },
+    "Fingerprinting": {
+      "n": 1176,
+      "alarm_rate": 0.5110544217687075
+    },
+    "MITM": {
+      "n": 1229,
+      "alarm_rate": 1.0
+    },
+    "Normal": {
+      "n": 11208625,
+      "alarm_rate": 0.045433851163724365
+    },
+    "Password": {
+      "n": 1053893,
+      "alarm_rate": 0.17433933046333927
+    },
+    "Port_Scanning": {
+      "n": 23329,
+      "alarm_rate": 1.0
+    },
+    "Ransomware": {
+      "n": 11030,
+      "alarm_rate": 1.0
+    },
+    "SQL_injection": {
+      "n": 51228,
+      "alarm_rate": 1.0
+    },
+    "Uploading": {
+      "n": 37644,
+      "alarm_rate": 0.009217936457337159
+    },
+    "Vulnerability_scanner": {
+      "n": 265828,
+      "alarm_rate": 0.011289254706050529
+    },
+    "XSS": {
+      "n": 16215,
+      "alarm_rate": 1.0
+    }
+  },
+  "elapsed_s": 995.3262537000701,
+  "adwin_changes": 3103,
+  "paper": {
+    "VP": 6130307,
+    "VN": 21966507,
+    "FP": 574072,
+    "FN": 2249075,
+    "accuracy": 0.9087,
+    "precision": 0.9144,
+    "recall": 0.7316,
+    "f1": 0.8124,
+    "elapsed_s": 14893.37
+  }
+}
