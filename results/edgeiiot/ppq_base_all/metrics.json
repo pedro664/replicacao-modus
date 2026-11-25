@@ -1,0 +1,180 @@
+{
+  "args": {
+    "dataset": "edgeiiot",
+    "name": "ppq_base_all",
+    "order": null,
+    "variant": "all",
+    "classes": "ddos",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed_q",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null,
+    "label_in_stream": false,
+    "engine": "numpy",
+    "pad_class_dim": false,
+    "window_s": null,
+    "warmup_adaptive": false,
+    "warmup_min": 5000,
+    "warmup_stable": 5000,
+    "train_cap": null,
+    "cap_key": "dst",
+    "frozen": false,
+    "frozen_q": 0.999,
+    "norm_freeze": false
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "pad_class_dim": false,
+    "window_s": null,
+    "min_window_mass": 50,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000,
+    "warmup_adaptive": false,
+    "warmup_min": 5000,
+    "warmup_max": 50000,
+    "warmup_stable": 5000,
+    "warmup_delta": 0.002,
+    "train_cap": null,
+    "train_cap_key": "dst",
+    "train_cap_q": 0.99,
+    "frozen": false,
+    "frozen_calib": 0.2,
+    "frozen_q": 0.999
+  },
+  "metrics_total": {
+    "VP": 581,
+    "VN": 11257884,
+    "FP": 741,
+    "FN": 9865287,
+    "accuracy": 0.5329578797465103,
+    "precision": 0.4394856278366112,
+    "recall": 5.888990203396194e-05,
+    "f1": 0.00011776402400278094
+  },
+  "metrics_post_warmup": {
+    "VP": 581,
+    "VN": 11207884,
+    "FP": 741,
+    "FN": 9865287,
+    "accuracy": 0.531849805354748,
+    "precision": 0.4394856278366112,
+    "recall": 5.888990203396194e-05,
+    "f1": 0.00011776402400278094
+  },
+  "score_metrics": {
+    "roc_auc": 0.32866336431693643,
+    "pr_auc": 0.41693829415132994
+  },
+  "metrics_after_default_warmup": {
+    "VP": 581,
+    "VN": 11207884,
+    "FP": 741,
+    "FN": 9865287,
+    "accuracy": 0.531849805354748,
+    "precision": 0.4394856278366112,
+    "recall": 5.888990203396194e-05,
+    "f1": 0.00011776402400278094
+  },
+  "warmup_end": 50000,
+  "attacks_trained": 0.999941110097966,
+  "engine": "numpy",
+  "per_type_post_warmup": {
+    "Backdoor": {
+      "n": 24914,
+      "alarm_rate": 0.00012041422493377217
+    },
+    "DDoS_HTTP": {
+      "n": 229142,
+      "alarm_rate": 0.0005280568381178483
+    },
+    "DDoS_ICMP": {
+      "n": 2914356,
+      "alarm_rate": 2.6420931416752107e-05
+    },
+    "DDoS_TCP": {
+      "n": 2020152,
+      "alarm_rate": 2.3265576055663137e-05
+    },
+    "DDoS_UDP": {
+      "n": 3215732,
+      "alarm_rate": 6.219423757949978e-07
+    },
+    "Fingerprinting": {
+      "n": 1176,
+      "alarm_rate": 0.0
+    },
+    "MITM": {
+      "n": 1229,
+      "alarm_rate": 0.03905614320585842
+    },
+    "Normal": {
+      "n": 11208625,
+      "alarm_rate": 6.610980383410097e-05
+    },
+    "Password": {
+      "n": 1053893,
+      "alarm_rate": 1.1386355161292465e-05
+    },
+    "Port_Scanning": {
+      "n": 23329,
+      "alarm_rate": 0.000471516138711475
+    },
+    "Ransomware": {
+      "n": 11030,
+      "alarm_rate": 0.0008159564823209429
+    },
+    "SQL_injection": {
+      "n": 51228,
+      "alarm_rate": 3.9041149371437495e-05
+    },
+    "Uploading": {
+      "n": 37644,
+      "alarm_rate": 0.0006109871427053448
+    },
+    "Vulnerability_scanner": {
+      "n": 265828,
+      "alarm_rate": 0.0008501737965902765
+    },
+    "XSS": {
+      "n": 16215,
+      "alarm_rate": 0.0
+    }
+  },
+  "elapsed_s": 2970.955219375028,
+  "adwin_changes": 3103,
+  "paper": {
+    "VP": 6130307,
+    "VN": 21966507,
+    "FP": 574072,
+    "FN": 2249075,
+    "accuracy": 0.9087,
+    "precision": 0.9144,
+    "recall": 0.7316,
+    "f1": 0.8124,
+    "elapsed_s": 14893.37
+  }
+}

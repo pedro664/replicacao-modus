@@ -34,5 +34,10 @@ Fase operacional (após o aquecimento de cada rodada). `F1 oráculo` usa rótulo
 | ctu13 | nl_paper | MODUS, config do artigo, sem rótulo | 50,000 | 47.66 | 99.97 | 64.55 | 52.37 | – | 99.86 | – | 99.76 |
 | ctu13 | nl_cfg_aseados | MODUS, config do ASEADOS, sem rótulo | 50,000 | 99.51 | 99.97 | 99.74 | 0.24 | – | 99.89 | – | 99.75 |
 | ctu13 | nl_fixedq_plus | MODUS+ fixed_q (MOA), sem rótulo | 50,000 | 0.00 | 0.00 | 0.00 | 5.37 | – | 0.04 | – | 48.82 |
+| ctu13 | nl_fixed_plus | MODUS+ fixed (MOA), sem rótulo | 50,000 | 0.01 | 0.00 | 0.00 | 6.43 | – | 0.04 | – | 48.82 |
+| ctu13 | ppq_base | MODUS+ fixed_q (numpy) | 50,000 | 0.01 | 0.00 | 0.00 | 3.12 | 100.00 | 0.15 | – | 48.82 |
+| ctu13 | ppq_frozen | + modelo congelado (c/ norm. congelada) | 50,000 | 90.79 | 56.42 | 69.59 | 2.73 | 43.58 | 49.78 | 96.32 | 55.54 |
 | ctu13 | ppq_time10cap | + janela 10 s + teto | 50,000 | 0.00 | 0.00 | 0.00 | 0.04 | 2.07 | 96.47 | – | 94.81 |
 | ctu13 | ppq_all | MODUS++ (todas) | 35,318 | 0.06 | 0.00 | 0.01 | 2.60 | 2.41 | 72.93 | 93.95 | 71.14 |
+| ctu13 | ppq_all_cap01 | sens.: MODUS++ teto 0,1x | 35,318 | 82.96 | 94.29 | 88.26 | 9.21 | 0.05 | 90.41 | 93.95 | 87.16 |
+| ctu13 | ppq_all_q99 | sens.: MODUS++ quantil congelado 0,99 | 35,318 | 88.24 | 79.07 | 83.40 | 5.01 | 0.89 | 92.71 | 93.95 | 86.06 |

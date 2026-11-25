@@ -1,0 +1,71 @@
+run=ppq_all_all dataset=edgeiiot features=plus preset=fixed_q order=None variant=all classes=ddos norm=none n=21124493 ataques=9865868
+aquecimento: 0 ataques nas primeiras 50000 instâncias
+atributos: ['sport', 'dport', 'length', 'proto', 'rate_all', 'rate_dst'] (ADWIN em length)
+config: {'hst_window': 250, 'hst_trees': 25, 'hst_depth': 15, 'hst_size_limit': 0.1, 'seed': 1, 'pad_class_dim': False, 'window_s': 10.0, 'min_window_mass': 50, 'adwin_delta': 0.001, 'use_drift_flag': True, 'alpha': 5.189028910303929, 'tau_min': 0.5, 'tau_max': None, 'mad_window': 5000, 'n_min': 1000, 'tau_min_quantile': 0.999, 'warmup': 50000, 'warmup_adaptive': True, 'warmup_min': 5000, 'warmup_max': 50000, 'warmup_stable': 5000, 'warmup_delta': 0.002, 'train_cap': 1.0, 'train_cap_key': 'dst', 'train_cap_q': 0.99, 'frozen': True, 'frozen_calib': 0.2, 'frozen_q': 0.999}
+ADWIN: 5202 mudanças detectadas
+fim do aquecimento em t=5000
+piso automático (quantil 0.999): 0.7967
+teto de treino: 16.7 instâncias/s por dst
+modelo congelado: 4000 instâncias, limiar 0.8296 (quantil 0.999 de 1000)
+  500799/21124493 instâncias  (340.3s)
+  1000832/21124493 instâncias  (454.3s)
+  1500833/21124493 instâncias  (553.7s)
+  2000979/21124493 instâncias  (589.5s)
+  2521617/21124493 instâncias  (602.5s)
+  3045745/21124493 instâncias  (619.6s)
+  3581642/21124493 instâncias  (640.7s)
+  4098924/21124493 instâncias  (656.1s)
+  4615965/21124493 instâncias  (670.2s)
+  5119885/21124493 instâncias  (685.1s)
+  5693614/21124493 instâncias  (708.4s)
+  6214565/21124493 instâncias  (726.9s)
+  6728448/21124493 instâncias  (742.8s)
+  7251017/21124493 instâncias  (758.7s)
+  7767058/21124493 instâncias  (776.8s)
+  8343963/21124493 instâncias  (796.4s)
+  8880869/21124493 instâncias  (812.1s)
+  9438346/21124493 instâncias  (826.0s)
+  9947184/21124493 instâncias  (838.9s)
+  10447264/21124493 instâncias  (881.7s)
+  10947434/21124493 instâncias  (918.9s)
+  11447898/21124493 instâncias  (949.7s)
+  11951005/21124493 instâncias  (967.9s)
+  12452162/21124493 instâncias  (988.0s)
+  12952871/21124493 instâncias  (1019.8s)
+  13454100/21124493 instâncias  (1064.2s)
+  13954916/21124493 instâncias  (1091.2s)
+  14457083/21124493 instâncias  (1112.3s)
+  14963124/21124493 instâncias  (1132.4s)
+  15468894/21124493 instâncias  (1149.3s)
+  15970641/21124493 instâncias  (1164.6s)
+  16471016/21124493 instâncias  (1180.0s)
+  16973697/21124493 instâncias  (1196.7s)
+  17474896/21124493 instâncias  (1213.7s)
+  17979208/21124493 instâncias  (1234.1s)
+  18485695/21124493 instâncias  (1250.7s)
+  18991539/21124493 instâncias  (1267.5s)
+  19492938/21124493 instâncias  (1285.9s)
+  19994504/21124493 instâncias  (1318.8s)
+  20495397/21124493 instâncias  (1346.6s)
+  20996364/21124493 instâncias  (1377.0s)
+total (convenção do artigo): VP=8560826 VN=10904965 FP=353660 FN=1305042 acc=0.9215 prec=0.9603 rec=0.8677 f1=0.9117
+pós-aquecimento: VP=8560826 VN=10899965 FP=353660 FN=1305042 acc=0.9215 prec=0.9603 rec=0.8677 f1=0.9117
+scores pós-aquecimento: AUC-ROC=0.9195 PR-AUC=0.9312
+após t=50000 (comum): prec=0.9604 rec=0.8677 f1=0.9117
+ataques usados no treino (envenenamento): 6.90%
+  Backdoor                 n=    24,914  alarmes= 12.92%
+  DDoS_HTTP                n=   229,142  alarmes= 68.32%
+  DDoS_ICMP                n= 2,914,356  alarmes= 99.88%
+  DDoS_TCP                 n= 2,020,152  alarmes= 97.14%
+  DDoS_UDP                 n= 3,215,732  alarmes= 99.72%
+  Fingerprinting           n=     1,176  alarmes= 34.86%
+  MITM                     n=     1,229  alarmes= 18.31%
+  Normal                   n=11,253,625  alarmes=  3.14%
+  Password                 n= 1,053,893  alarmes=  9.05%
+  Port_Scanning            n=    23,329  alarmes=  5.88%
+  Ransomware               n=    11,030  alarmes= 43.30%
+  SQL_injection            n=    51,228  alarmes= 16.45%
+  Uploading                n=    37,644  alarmes=  8.25%
+  Vulnerability_scanner    n=   265,828  alarmes= 77.75%
+  XSS                      n=    16,215  alarmes=  4.30%
+tempo: 1383.8s (artigo: 14893.37s)

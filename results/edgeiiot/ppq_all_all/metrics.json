@@ -1,0 +1,180 @@
+{
+  "args": {
+    "dataset": "edgeiiot",
+    "name": "ppq_all_all",
+    "order": null,
+    "variant": "all",
+    "classes": "ddos",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed_q",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null,
+    "label_in_stream": false,
+    "engine": "numpy",
+    "pad_class_dim": false,
+    "window_s": 10.0,
+    "warmup_adaptive": true,
+    "warmup_min": 5000,
+    "warmup_stable": 5000,
+    "train_cap": 1.0,
+    "cap_key": "dst",
+    "frozen": true,
+    "frozen_q": 0.999,
+    "norm_freeze": true
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "pad_class_dim": false,
+    "window_s": 10.0,
+    "min_window_mass": 50,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000,
+    "warmup_adaptive": true,
+    "warmup_min": 5000,
+    "warmup_max": 50000,
+    "warmup_stable": 5000,
+    "warmup_delta": 0.002,
+    "train_cap": 1.0,
+    "train_cap_key": "dst",
+    "train_cap_q": 0.99,
+    "frozen": true,
+    "frozen_calib": 0.2,
+    "frozen_q": 0.999
+  },
+  "metrics_total": {
+    "VP": 8560826,
+    "VN": 10904965,
+    "FP": 353660,
+    "FN": 1305042,
+    "accuracy": 0.921479677642441,
+    "precision": 0.9603274939239346,
+    "recall": 0.8677215223232259,
+    "f1": 0.9116788746367613
+  },
+  "metrics_post_warmup": {
+    "VP": 8560826,
+    "VN": 10899965,
+    "FP": 353660,
+    "FN": 1305042,
+    "accuracy": 0.9214610881047192,
+    "precision": 0.9603274939239346,
+    "recall": 0.8677215223232259,
+    "f1": 0.9116788746367613
+  },
+  "score_metrics": {
+    "roc_auc": 0.9194999274771966,
+    "pr_auc": 0.9312311017434759
+  },
+  "metrics_after_default_warmup": {
+    "VP": 8560826,
+    "VN": 10855225,
+    "FP": 353400,
+    "FN": 1305042,
+    "accuracy": 0.9213057225148904,
+    "precision": 0.96035550366347,
+    "recall": 0.8677215223232259,
+    "f1": 0.9116914963258437
+  },
+  "warmup_end": 5000,
+  "attacks_trained": 0.06900558572241186,
+  "engine": "numpy",
+  "per_type_post_warmup": {
+    "Backdoor": {
+      "n": 24914,
+      "alarm_rate": 0.12920446335393754
+    },
+    "DDoS_HTTP": {
+      "n": 229142,
+      "alarm_rate": 0.6832008099780922
+    },
+    "DDoS_ICMP": {
+      "n": 2914356,
+      "alarm_rate": 0.9987715982536107
+    },
+    "DDoS_TCP": {
+      "n": 2020152,
+      "alarm_rate": 0.971400666880512
+    },
+    "DDoS_UDP": {
+      "n": 3215732,
+      "alarm_rate": 0.9972376429379065
+    },
+    "Fingerprinting": {
+      "n": 1176,
+      "alarm_rate": 0.3486394557823129
+    },
+    "MITM": {
+      "n": 1229,
+      "alarm_rate": 0.18307567127746135
+    },
+    "Normal": {
+      "n": 11253625,
+      "alarm_rate": 0.03142631818636217
+    },
+    "Password": {
+      "n": 1053893,
+      "alarm_rate": 0.09047502924869982
+    },
+    "Port_Scanning": {
+      "n": 23329,
+      "alarm_rate": 0.058768056924857474
+    },
+    "Ransomware": {
+      "n": 11030,
+      "alarm_rate": 0.4330009066183137
+    },
+    "SQL_injection": {
+      "n": 51228,
+      "alarm_rate": 0.16449988287655187
+    },
+    "Uploading": {
+      "n": 37644,
+      "alarm_rate": 0.08245669960684306
+    },
+    "Vulnerability_scanner": {
+      "n": 265828,
+      "alarm_rate": 0.7775478881080999
+    },
+    "XSS": {
+      "n": 16215,
+      "alarm_rate": 0.04298489053345667
+    }
+  },
+  "elapsed_s": 1383.7594272089773,
+  "adwin_changes": 5202,
+  "paper": {
+    "VP": 6130307,
+    "VN": 21966507,
+    "FP": 574072,
+    "FN": 2249075,
+    "accuracy": 0.9087,
+    "precision": 0.9144,
+    "recall": 0.7316,
+    "f1": 0.8124,
+    "elapsed_s": 14893.37
+  }
+}

@@ -280,9 +280,54 @@ bullets(s, 4.0, 3.02, 5.5, 2.3, [
 ], size=12)
 page += 1
 
+# 8. Edge-IIoT
+s = light_slide(prs)
+header(s, "Edge-IIoT: 91% de F1 com 14 tipos de ataque", "21 milhões de pacotes; MODUS++ com a mesma config das outras bases", page)
+cd = CategoryChartData()
+cd.categories = ["MODUS orig.\n(config artigo)", "MODUS+ Et. 1\n(com rótulo)", "MODUS+ Et. 1\nsem rótulo", "MODUS+\nfixed_q", "MODUS++"]
+cd.add_series("F1 (%)", (76.66, 91.05, 11.72, 0.01, 91.17))
+gf = s.shapes.add_chart(XL_CHART_TYPE.COLUMN_CLUSTERED, Inches(0.45), Inches(1.9), Inches(5.3), Inches(3.4), cd)
+ch_ = gf.chart
+ch_.has_legend = False
+ch_.font.size, ch_.font.name = Pt(10), "Arial"
+ch_.font.color.rgb = rgb(BODY)
+plot = ch_.plots[0]
+plot.gap_width = 60
+plot.has_data_labels = True
+dl = plot.data_labels
+dl.number_format, dl.number_format_is_linked = '0.0', False
+dl.position = XL_LABEL_POSITION.OUTSIDE_END
+dl.font.size, dl.font.bold = Pt(11), True
+ser = plot.series[0]
+ser.format.fill.solid()
+ser.format.fill.fore_color.rgb = rgb("8C8C8C")
+for k, colr in ((1, "D9D9D9"), (4, RED)):
+    pt = ser.points[k]
+    pt.format.fill.solid()
+    pt.format.fill.fore_color.rgb = rgb(colr)
+va = ch_.value_axis
+va.maximum_scale, va.minimum_scale = 100, 0
+va.has_major_gridlines = True
+va.major_gridlines.format.line.color.rgb = rgb("E4E2DC")
+va.format.line.fill.background()
+va.tick_labels.font.size = Pt(9)
+ch_.has_title = True
+ch_.chart_title.text_frame.text = "F1 na fase operacional (%)"
+ch_.chart_title.text_frame.paragraphs[0].runs[0].font.size = Pt(11)
+ch_.chart_title.text_frame.paragraphs[0].runs[0].font.bold = False
+text(s, 6.05, 1.98, 3.45, 0.6, [[("99,99% ", {"color": DARK}), ("→ 6,9%", {"color": RED})]], size=28, bold=True)
+text(s, 6.05, 2.55, 3.45, 0.3, "do ataque usado no treino (fixed_q → MODUS++)", size=11, color=MUTED)
+bullets(s, 6.05, 2.95, 3.45, 2.35, [
+    "MODUS original: 76,7%, sem depender do rótulo, mas perde todo DDoS TCP e HTTP",
+    "O MODUS+ da Etapa 1 dependia do rótulo: 91% → 11,7%",
+    [("MODUS++: ", {"bold": True}), ("precisão 96%, recall 87%, FP no normal 3,1%", {})],
+    "MODUS++: DDoS ICMP, UDP e TCP ≥ 97%; HTTP 68%",
+], size=12)
+page += 1
+
 # 8. Ataques não-DDoS
 s = light_slide(prs)
-header(s, "Teste com ataques não-DDoS (melhoria 4)", "ASEADOS com as 5 classes: ataques que o aquecimento nunca viu", page)
+header(s, "Teste com ataques não-DDoS (melhoria 4)", "Ataques que o aquecimento nunca viu: tabela do ASEADOS (5 classes); Edge-IIoT ao lado", page)
 rows = [("Tipo", "MODUS+ fixed_q", "MODUS++"), ("Bot", "0%", "22,9%"), ("DDoS", "0%", "38,8%"),
         ("DoS", "0,6%", "11,0%"), ("Probe", "0%", "100%"), ("Benigno (FP)", "0,08%", "17,9%"),
         ("F1 geral", "0,7%", "31,2%")]
@@ -304,23 +349,24 @@ text(s, 5.45, 1.98, 4.05, 0.3, "Taxa de alarme por tipo (fase operacional)", siz
 bullets(s, 5.45, 2.4, 4.05, 2.9, [
     "O MODUS original não alarma nenhum ataque novo",
     "O MODUS++ pega todo o Probe e parte de Bot e DDoS, ao custo de 18% de FP",
-    [("Edge-IIoT (14 ataques): ", {"bold": True}),
-     ("o 91% da Etapa 1 foi medido com o vazamento; reexecução sem rótulo pendente", {})],
+    [("Edge-IIoT: ", {"bold": True}),
+     ("78% do scanner de vulnerabilidades e 43% do ransomware; XSS (4%) e SQL injection (16%) ainda passam", {})],
 ], size=12)
 page += 1
 
 # 9. Resumo: proposta x implementado
 s = light_slide(prs)
-header(s, "Proposto x implementado", "Efeito de cada melhoria, medido sem vazamento e com a mesma config nas duas bases", page)
-rows = [("Melhoria", "Origem", "ASEADOS", "CTU-13"),
-        ("Normalização online + taxa", "Etapa 1 (1, 2)", "não basta sozinha", "não basta sozinha"),
-        ("Aquecimento adaptativo", "proposta 3", "essencial (+43 p.p.)", "35 mil instâncias"),
-        ("Janela em tempo", "trab. futuro", "efeito pequeno", "envenen. 100% → 2%"),
-        ("Teto de treino", "trab. futuro", "efeito pequeno", "idem, com a janela"),
-        ("Modelo congelado", "trab. futuro", "essencial (F1 63%)", "F1 69,6% sozinho"),
-        ("Teste não-DDoS", "proposta 4", "F1 0,7% → 31%", "–")]
-tbl = s.shapes.add_table(len(rows), 4, Inches(0.5), Inches(1.98), Inches(9.0), Inches(3.15)).table
-for j, wd in enumerate((2.75, 1.65, 2.3, 2.3)):
+header(s, "Proposto x implementado", "Efeito de cada melhoria, sem vazamento e com a mesma config nas três bases", page)
+rows = [("Melhoria", "Origem", "ASEADOS", "CTU-13", "Edge-IIoT"),
+        ("Normalização + taxa", "Etapa 1", "não basta", "não basta", "não basta"),
+        ("Aquec. adaptativo", "proposta 3", "essencial", "35 mil inst.", "5 mil inst."),
+        ("Janela em tempo", "trab. futuro", "pouco efeito", "envenen. → 2%", "envenen. → 6,9%"),
+        ("Teto de treino", "trab. futuro", "pouco efeito", "(com a janela)", "(conjunto)"),
+        ("Modelo congelado", "trab. futuro", "essencial", "F1 69,6% só", "(conjunto)"),
+        ("MODUS++ (todas)", "", "F1 0% → 63%", "F1 ≈ 0% a priori", "F1 76,7% → 91,2%"),
+        ("Teste não-DDoS", "proposta 4", "0,7% → 31%", "–", "14 ataques")]
+tbl = s.shapes.add_table(len(rows), 5, Inches(0.5), Inches(1.98), Inches(9.0), Inches(3.15)).table
+for j, wd in enumerate((2.0, 1.4, 1.8, 1.9, 1.9)):
     tbl.columns[j].width = Inches(wd)
 for i, row in enumerate(rows):
     for j, v in enumerate(row):
@@ -329,9 +375,9 @@ for i, row in enumerate(rows):
         c.fill.fore_color.rgb = rgb(DARK if i == 0 else ("FFFFFF" if i % 2 else CARD))
         r = c.text_frame.paragraphs[0].add_run()
         r.text = v
-        r.font.size, r.font.name = Pt(12), "Arial"
-        r.font.bold = i == 0 or j == 0
-        r.font.color.rgb = rgb("FFFFFF" if i == 0 else DARK)
+        r.font.size, r.font.name = Pt(11), "Arial"
+        r.font.bold = i == 0 or j == 0 or i == 6
+        r.font.color.rgb = rgb("FFFFFF" if i == 0 else (RED if i == 6 and j > 1 else DARK))
 page += 1
 
 # 10. Conclusões
@@ -348,11 +394,12 @@ bullets(s, 5.33, 0.78, 4.33, 2.6, [
     "O problema central é o envenenamento: treinar só o \"benigno\" não protege",
     "Modelo congelado + aquecimento adaptativo: ASEADOS 0% → 63%",
     "Janela em tempo + teto: envenenamento no CTU-13 de 100% → 2%",
-], size=12, color="FFFFFF", marker="FFFFFF")
+    "Edge-IIoT, 14 ataques: F1 76,7% (original) → 91,2%",
+], size=11, color="FFFFFF", marker="FFFFFF")
 text(s, 5.33, 3.5, 4.33, 0.3, "Próximos passos", size=15, color="FFFFFF", bold=True)
 bullets(s, 5.33, 3.86, 4.33, 1.5, [
     "Limiar sem rótulos que não fique no fio da navalha",
-    "Reexecutar o Edge-IIoT sem vazamento",
+    "Ataques web no Edge-IIoT (XSS, SQL) e mais sementes",
     "Artigo IEEE (8 páginas) até 25/11",
 ], size=12, color="FFFFFF", marker="FFFFFF")
 

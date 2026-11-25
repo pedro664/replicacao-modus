@@ -1,0 +1,125 @@
+{
+  "args": {
+    "dataset": "edgeiiot",
+    "name": "nl_clean",
+    "order": null,
+    "variant": "clean",
+    "classes": "ddos",
+    "features": "paper",
+    "rate_window": 1.0,
+    "preset": null,
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null,
+    "label_in_stream": false,
+    "engine": "moa",
+    "pad_class_dim": false,
+    "window_s": null,
+    "warmup_adaptive": false,
+    "warmup_min": 5000,
+    "warmup_stable": 5000,
+    "train_cap": null,
+    "cap_key": "dst",
+    "frozen": false,
+    "frozen_q": 0.999,
+    "norm_freeze": false
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto"
+  ],
+  "config": {
+    "hst_window": 100000,
+    "hst_trees": 80,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 6.0,
+    "tau_min": 0.4,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": null,
+    "warmup": 50000,
+    "label_in_stream": false
+  },
+  "metrics_total": {
+    "VP": 6130306,
+    "VN": 11245720,
+    "FP": 12905,
+    "FN": 2249076,
+    "accuracy": 0.8848161628621479,
+    "precision": 0.9978993070561959,
+    "recall": 0.7315940483438993,
+    "f1": 0.8442439996769171
+  },
+  "metrics_post_warmup": {
+    "VP": 6130306,
+    "VN": 11195720,
+    "FP": 12905,
+    "FN": 2249076,
+    "accuracy": 0.8845221466379913,
+    "precision": 0.9978993070561959,
+    "recall": 0.7315940483438993,
+    "f1": 0.8442439996769171
+  },
+  "score_metrics": {
+    "roc_auc": 0.978362837082663,
+    "pr_auc": 0.9717398058172488
+  },
+  "metrics_after_default_warmup": {
+    "VP": 6130306,
+    "VN": 11195720,
+    "FP": 12905,
+    "FN": 2249076,
+    "accuracy": 0.8845221466379913,
+    "precision": 0.9978993070561959,
+    "recall": 0.7315940483438993,
+    "f1": 0.8442439996769171
+  },
+  "warmup_end": 50000,
+  "attacks_trained": null,
+  "engine": "moa",
+  "per_type_post_warmup": {
+    "DDoS_HTTP": {
+      "n": 229142,
+      "alarm_rate": 0.00017456424400590027
+    },
+    "DDoS_ICMP": {
+      "n": 2914356,
+      "alarm_rate": 0.9999993137420411
+    },
+    "DDoS_TCP": {
+      "n": 2020152,
+      "alarm_rate": 8.910220617062479e-05
+    },
+    "DDoS_UDP": {
+      "n": 3215732,
+      "alarm_rate": 1.0
+    },
+    "Normal": {
+      "n": 11208625,
+      "alarm_rate": 0.0011513455040203415
+    }
+  },
+  "elapsed_s": 1040.793971334002,
+  "adwin_changes": 17378,
+  "paper": {
+    "VP": 6130307,
+    "VN": 21966507,
+    "FP": 574072,
+    "FN": 2249075,
+    "accuracy": 0.9087,
+    "precision": 0.9144,
+    "recall": 0.7316,
+    "f1": 0.8124,
+    "elapsed_s": 14893.37
+  }
+}

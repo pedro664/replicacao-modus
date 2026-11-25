@@ -1,0 +1,167 @@
+{
+  "args": {
+    "dataset": "edgeiiot",
+    "name": "nl_all_fixed_plus",
+    "order": null,
+    "variant": "all",
+    "classes": "ddos",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null,
+    "label_in_stream": false,
+    "engine": "moa",
+    "pad_class_dim": false,
+    "window_s": null,
+    "warmup_adaptive": false,
+    "warmup_min": 5000,
+    "warmup_stable": 5000,
+    "train_cap": null,
+    "cap_key": "dst",
+    "frozen": false,
+    "frozen_q": 0.999,
+    "norm_freeze": false
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": null,
+    "warmup": 50000,
+    "label_in_stream": false
+  },
+  "metrics_total": {
+    "VP": 627169,
+    "VN": 11046881,
+    "FP": 211744,
+    "FN": 9238699,
+    "accuracy": 0.552631014623641,
+    "precision": 0.7475971882662446,
+    "recall": 0.06356957137476399,
+    "f1": 0.11717549382841182
+  },
+  "metrics_post_warmup": {
+    "VP": 627169,
+    "VN": 10996881,
+    "FP": 211744,
+    "FN": 9238699,
+    "accuracy": 0.5515696154588393,
+    "precision": 0.7475971882662446,
+    "recall": 0.06356957137476399,
+    "f1": 0.11717549382841182
+  },
+  "score_metrics": {
+    "roc_auc": 0.2624981836964155,
+    "pr_auc": 0.42271488657013956
+  },
+  "metrics_after_default_warmup": {
+    "VP": 627169,
+    "VN": 10996881,
+    "FP": 211744,
+    "FN": 9238699,
+    "accuracy": 0.5515696154588393,
+    "precision": 0.7475971882662446,
+    "recall": 0.06356957137476399,
+    "f1": 0.11717549382841182
+  },
+  "warmup_end": 50000,
+  "attacks_trained": null,
+  "engine": "moa",
+  "per_type_post_warmup": {
+    "Backdoor": {
+      "n": 24914,
+      "alarm_rate": 0.12783976880468811
+    },
+    "DDoS_HTTP": {
+      "n": 229142,
+      "alarm_rate": 0.11947613270373829
+    },
+    "DDoS_ICMP": {
+      "n": 2914356,
+      "alarm_rate": 0.0006217497107422704
+    },
+    "DDoS_TCP": {
+      "n": 2020152,
+      "alarm_rate": 0.14654144836626154
+    },
+    "DDoS_UDP": {
+      "n": 3215732,
+      "alarm_rate": 0.0874183545146175
+    },
+    "Fingerprinting": {
+      "n": 1176,
+      "alarm_rate": 0.6760204081632653
+    },
+    "MITM": {
+      "n": 1229,
+      "alarm_rate": 0.8901545972335232
+    },
+    "Normal": {
+      "n": 11208625,
+      "alarm_rate": 0.018891166400874328
+    },
+    "Password": {
+      "n": 1053893,
+      "alarm_rate": 0.004004201565054517
+    },
+    "Port_Scanning": {
+      "n": 23329,
+      "alarm_rate": 0.06905568176947147
+    },
+    "Ransomware": {
+      "n": 11030,
+      "alarm_rate": 0.15104261106074343
+    },
+    "SQL_injection": {
+      "n": 51228,
+      "alarm_rate": 0.003181853673772156
+    },
+    "Uploading": {
+      "n": 37644,
+      "alarm_rate": 0.033444904898523004
+    },
+    "Vulnerability_scanner": {
+      "n": 265828,
+      "alarm_rate": 0.02327444813939841
+    },
+    "XSS": {
+      "n": 16215,
+      "alarm_rate": 0.040086339808818996
+    }
+  },
+  "elapsed_s": 2959.6449514999986,
+  "adwin_changes": 3103,
+  "paper": {
+    "VP": 6130307,
+    "VN": 21966507,
+    "FP": 574072,
+    "FN": 2249075,
+    "accuracy": 0.9087,
+    "precision": 0.9144,
+    "recall": 0.7316,
+    "f1": 0.8124,
+    "elapsed_s": 14893.37
+  }
+}

@@ -1,0 +1,69 @@
+run=ppq_base_all dataset=edgeiiot features=plus preset=fixed_q order=None variant=all classes=ddos norm=none n=21124493 ataques=9865868
+aquecimento: 0 ataques nas primeiras 50000 instâncias
+atributos: ['sport', 'dport', 'length', 'proto', 'rate_all', 'rate_dst'] (ADWIN em length)
+config: {'hst_window': 250, 'hst_trees': 25, 'hst_depth': 15, 'hst_size_limit': 0.1, 'seed': 1, 'pad_class_dim': False, 'window_s': None, 'min_window_mass': 50, 'adwin_delta': 0.001, 'use_drift_flag': True, 'alpha': 5.189028910303929, 'tau_min': 0.5, 'tau_max': None, 'mad_window': 5000, 'n_min': 1000, 'tau_min_quantile': 0.999, 'warmup': 50000, 'warmup_adaptive': False, 'warmup_min': 5000, 'warmup_max': 50000, 'warmup_stable': 5000, 'warmup_delta': 0.002, 'train_cap': None, 'train_cap_key': 'dst', 'train_cap_q': 0.99, 'frozen': False, 'frozen_calib': 0.2, 'frozen_q': 0.999}
+ADWIN: 3103 mudanças detectadas
+fim do aquecimento em t=50000
+piso automático (quantil 0.999): 0.7867
+  500185/21124493 instâncias  (339.3s)
+  1000312/21124493 instâncias  (475.6s)
+  1500506/21124493 instâncias  (565.6s)
+  2000568/21124493 instâncias  (633.6s)
+  2500568/21124493 instâncias  (706.0s)
+  3000574/21124493 instâncias  (778.7s)
+  3500574/21124493 instâncias  (837.6s)
+  4000651/21124493 instâncias  (885.0s)
+  4500651/21124493 instâncias  (919.6s)
+  5000651/21124493 instâncias  (964.1s)
+  5500651/21124493 instâncias  (1030.6s)
+  6000651/21124493 instâncias  (1099.5s)
+  6500651/21124493 instâncias  (1153.8s)
+  7000651/21124493 instâncias  (1201.6s)
+  7500651/21124493 instâncias  (1256.9s)
+  8000651/21124493 instâncias  (1310.5s)
+  8500651/21124493 instâncias  (1366.6s)
+  9000651/21124493 instâncias  (1412.1s)
+  9500653/21124493 instâncias  (1457.1s)
+  10000702/21124493 instâncias  (1510.4s)
+  10500839/21124493 instâncias  (1580.7s)
+  11000845/21124493 instâncias  (1662.8s)
+  11500850/21124493 instâncias  (1726.6s)
+  12000853/21124493 instâncias  (1789.8s)
+  12500853/21124493 instâncias  (1851.1s)
+  13000863/21124493 instâncias  (1911.3s)
+  13500897/21124493 instâncias  (1976.5s)
+  14000907/21124493 instâncias  (2036.5s)
+  14500910/21124493 instâncias  (2098.2s)
+  15000919/21124493 instâncias  (2159.8s)
+  15500921/21124493 instâncias  (2230.9s)
+  16000954/21124493 instâncias  (2300.8s)
+  16500960/21124493 instâncias  (2360.7s)
+  17000964/21124493 instâncias  (2417.2s)
+  17500964/21124493 instâncias  (2472.9s)
+  18000964/21124493 instâncias  (2524.4s)
+  18500964/21124493 instâncias  (2583.6s)
+  19000965/21124493 instâncias  (2648.0s)
+  19500965/21124493 instâncias  (2723.0s)
+  20001033/21124493 instâncias  (2802.3s)
+  20501060/21124493 instâncias  (2885.6s)
+  21001072/21124493 instâncias  (2956.0s)
+total (convenção do artigo): VP=581 VN=11257884 FP=741 FN=9865287 acc=0.5330 prec=0.4395 rec=0.0001 f1=0.0001
+pós-aquecimento: VP=581 VN=11207884 FP=741 FN=9865287 acc=0.5318 prec=0.4395 rec=0.0001 f1=0.0001
+scores pós-aquecimento: AUC-ROC=0.3287 PR-AUC=0.4169
+ataques usados no treino (envenenamento): 99.99%
+  Backdoor                 n=    24,914  alarmes=  0.01%
+  DDoS_HTTP                n=   229,142  alarmes=  0.05%
+  DDoS_ICMP                n= 2,914,356  alarmes=  0.00%
+  DDoS_TCP                 n= 2,020,152  alarmes=  0.00%
+  DDoS_UDP                 n= 3,215,732  alarmes=  0.00%
+  Fingerprinting           n=     1,176  alarmes=  0.00%
+  MITM                     n=     1,229  alarmes=  3.91%
+  Normal                   n=11,208,625  alarmes=  0.01%
+  Password                 n= 1,053,893  alarmes=  0.00%
+  Port_Scanning            n=    23,329  alarmes=  0.05%
+  Ransomware               n=    11,030  alarmes=  0.08%
+  SQL_injection            n=    51,228  alarmes=  0.00%
+  Uploading                n=    37,644  alarmes=  0.06%
+  Vulnerability_scanner    n=   265,828  alarmes=  0.09%
+  XSS                      n=    16,215  alarmes=  0.00%
+tempo: 2971.0s (artigo: 14893.37s)
