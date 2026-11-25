@@ -31,7 +31,23 @@ aconteceu quando colocamos essas melhorias em prática."
 
 ---
 
-### Slide 2 — Onde paramos
+### Slide 2 — Recapitulando a Etapa 1
+
+**O que mostra:** três colunas para quem não viu a Etapa 1.
+- **O que é o MODUS:** quatro passos. Um detector de mudança (ADWIN) vira um atributo a mais; uma
+  floresta de árvores (HST) dá a cada pacote uma nota de "raridade"; a linha de alarme (limiar MAD)
+  se ajusta à mediana das notas recentes; e o modelo só aprende com o que pareceu normal.
+- **Replicação:** o F1 do artigo e o nosso nas três bases. ASEADOS e Edge-IIoT bateram; o CTU-13
+  não, porque os rótulos do artigo são inconsistentes.
+- **O que propusemos:** as quatro melhorias e os três trabalhos futuros que a Etapa 2 implementa.
+
+**O que dizer:** "Na Etapa 1 reimplementamos o MODUS do zero e conseguimos reproduzir duas das três
+bases. Propusemos sete mudanças. Hoje mostramos o que aconteceu quando as implementamos, e também
+uma surpresa: o 99,73% do ASEADOS não era o que parecia."
+
+---
+
+### Slide 3 — Onde paramos
 
 **O que mostra:** três números que resumem a Etapa 1.
 
@@ -46,7 +62,7 @@ aconteceu quando colocamos essas melhorias em prática."
 
 ---
 
-### Slide 3 — Achado novo: o detector estava colando
+### Slide 4 — Achado novo: o detector estava colando
 
 **O que mostra:** dois gráficos lado a lado da mesma base (ASEADOS). Em cima, o detector como
 rodamos na Etapa 1; embaixo, o detector corrigido. Os pontos laranjas são o ataque.
@@ -68,7 +84,7 @@ acerto é de 99,73%. Sem a cola, o ataque despenca para o fundo do gráfico e o 
 
 ---
 
-### Slide 4 — O problema real
+### Slide 5 — O problema real
 
 **O que mostra:** três números grandes sobre o detector já corrigido.
 
@@ -87,7 +103,7 @@ pensadas para ele."
 
 ---
 
-### Slide 5 — O que implementamos (MODUS++)
+### Slide 6 — O que implementamos (MODUS++)
 
 **O que mostra:** seis cartões, um por peça do novo detector.
 
@@ -106,7 +122,7 @@ valores antes de ver os resultados, para não ajustar o detector à prova."
 
 ---
 
-### Slide 6 — ASEADOS: de 0% a 63%
+### Slide 7 — ASEADOS: de 0% a 63%
 
 **O que mostra:** um gráfico de barras com o acerto (F1) a cada melhoria acrescentada, e o número
 63,4% em destaque.
@@ -127,7 +143,7 @@ acerto chega a 63%.
 
 ---
 
-### Slide 7 — CTU-13: o envenenamento some, o alarme ainda falha
+### Slide 8 — CTU-13: o envenenamento some, o alarme ainda falha
 
 **O que mostra:** à esquerda, a linha do tempo do ataque (cerca de 20 mil pacotes por segundo nos
 dois minutos finais), com quanto de ataque cada versão detectou e quanto dele foi usado no
@@ -150,7 +166,7 @@ milésimos.
 
 ---
 
-### Slide 8 — Edge-IIoT: 91% com 14 tipos de ataque
+### Slide 9 — Edge-IIoT: 91% com 14 tipos de ataque
 
 **O que mostra:** um gráfico de barras com cinco versões do detector na base Edge-IIoT, que tem
 14 tipos de ataque e 21 milhões de pacotes.
@@ -177,7 +193,7 @@ milésimos.
 
 ---
 
-### Slide 9 — Teste com ataques que não são DDoS
+### Slide 10 — Teste com ataques que não são DDoS
 
 **O que mostra:** uma tabela com a porcentagem de alarmes para cada tipo de tráfego na base
 ASEADOS completa, que tem cinco tipos: tráfego normal e quatro ataques diferentes.
@@ -198,7 +214,7 @@ qualquer ataque desconhecido, principalmente os discretos."
 
 ---
 
-### Slide 10 — Proposto x implementado
+### Slide 11 — Proposto x implementado
 
 **O que mostra:** uma tabela com cada melhoria, de onde ela veio (proposta da Etapa 1 ou trabalho
 futuro) e qual foi o efeito em cada uma das três bases. A linha em vermelho é o resultado do
@@ -214,7 +230,19 @@ implementado e medido. Em resumo:
 
 ---
 
-### Slide 11 — Conclusões e próximos passos
+### Slide 12 — Insumos e reprodutibilidade
+
+**O que mostra:** seis cartões com o que o estudo gerou e onde está no repositório: código, logs e
+métricas das 89 rodadas, amostras de 10 mil instâncias, os modelos treinados do MODUS++ (HST
+adaptativo e congelado, nas três bases), as figuras e as tabelas. Embaixo, o link do GitHub.
+
+**O que dizer:** é a prestação de contas do segundo entregável. Qualquer número dos slides pode ser
+conferido: cada rodada guarda a configuração exata e pode ser refeita com um comando. O guia do
+repositório está no `CLAUDE.md` e no `README.md`.
+
+---
+
+### Slide 13 — Conclusões e próximos passos
 
 **Conclusões:**
 1. A nossa réplica do resultado de 99% dependia do detector ver a resposta; sem isso, 0%.
@@ -231,7 +259,7 @@ implementado e medido. Em resumo:
 
 ---
 
-### Slide 12 — Encerramento
+### Slide 14 — Encerramento
 
 Agradecimento, perguntas e link para o código.
 

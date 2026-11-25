@@ -65,6 +65,10 @@ Tabela completa, com ablação, sementes e sensibilidade: [`results/modus_pp.md`
 Resumo técnico: [`results/etapa2_detalhes.md`](results/etapa2_detalhes.md).
 Slides: `Replicacao_MODUS_CIn_Etapa2.pptx`. Artigo IEEE: `paper/`.
 
+Insumos por rodada em `results/<base>/<rodada>/`: `log.txt` e `metrics.json` (todas as 89 rodadas),
+`amostra.csv.gz` (10 mil instâncias das rodadas principais, `make_samples.py`) e `model.npz` (HST
+adaptativo e congelado do MODUS++ nas três bases, `run.py --save-model`).
+
 ```
 .venv/bin/python run.py aseados --name ppq_all --engine numpy --preset fixed_q --features plus \
     --window-s 10 --warmup-adaptive --train-cap 1.0 --cap-key dst --frozen --norm-freeze

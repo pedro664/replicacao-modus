@@ -94,6 +94,8 @@ def main():
                     help="limiar do modelo congelado: quantil dos scores na calibração (fim do aquecimento)")
     ap.add_argument("--norm-freeze", action="store_true",
                     help="melhoria: Min-Max online congelado ao fim do aquecimento (--warmup)")
+    ap.add_argument("--save-model", action="store_true",
+                    help="salva o HST final e o congelado em model.npz (só --engine numpy)")
     args = ap.parse_args()
     # MODUS+ normaliza online; não usa a normalização global (que olha o futuro)
     norm = "none" if args.features != "paper" else (args.norm or DEFAULT_NORM[args.dataset])
@@ -190,6 +192,16 @@ def main():
     if "trained" in r:
         cols.update(trained=r["trained"].astype(np.int8), score_frozen=r["score_frozen"])
     pd.DataFrame(cols).to_csv(out / "scores.csv.gz", index=False)
+    if args.save_model and "hst" in r:
+        st = r["hst"].state("adaptive_")
+        if r["frozen_hst"] is not None:
+            st.update(r["frozen_hst"].state("frozen_"))
+            st["frozen_W"] = np.array(r["frozen_hst"].W)
+        np.savez_compressed(out / "model.npz", **st, features=np.array(feats),
+                            adaptive_W=np.array(r["W_norm"]), tau_final=np.array(r["tau"][-1]),
+                            tau_frozen=np.array(r["tau_frozen"]), warmup_end=np.array(w),
+                            train_cap=np.array(np.nan if r["train_cap"] is None else r["train_cap"]))
+        log(f"modelo salvo em {out / 'model.npz'}")
     logf.close()
 
 

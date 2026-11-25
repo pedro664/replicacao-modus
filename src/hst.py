@@ -111,6 +111,12 @@ class HST:
         if len(X):
             self._add_mass(self.r if to_reference else self.l, X)
 
+    def state(self, prefix: str = "") -> dict:
+        """Arrays que definem o modelo (estrutura das árvores e massas), para np.savez."""
+        return {f"{prefix}attr": self.attr, f"{prefix}split": self.split, f"{prefix}r": self.r,
+                f"{prefix}l": self.l, f"{prefix}shape": np.array([self.T, self.D, self.d]),
+                f"{prefix}size_limit": np.array(self.size_limit)}
+
     def swap(self):
         self.r, self.l = self.l, np.zeros_like(self.l)
 

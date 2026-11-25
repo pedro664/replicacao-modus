@@ -243,4 +243,5 @@ def run_modus_pp(X: np.ndarray, ts: np.ndarray, dst: np.ndarray, drift_values: n
         warm_end = n
     return {"score": scores, "score_frozen": scores_f, "tau": taus, "pred": preds, "flag": flags,
             "trained": trained, "warmup_end": warm_end, "tau_frozen": tau_f, "train_cap": cap,
+            "hst": hst, "frozen_hst": frozen, "W_norm": W_norm,
             "elapsed_s": time.perf_counter() - t0}

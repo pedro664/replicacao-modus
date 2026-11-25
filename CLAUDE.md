@@ -27,7 +27,8 @@ validate_hst.py    compara src/hst.py com o MOA (diferença máxima esperada ~1e
 plot_run.py        figura score x limiar de uma rodada
 figures_slides.py  figuras dos slides da Etapa 1 (results/figs/)
 paper_figs.py      figuras do artigo (paper/figs/*.pdf)
-slides_etapa2.py   gera Replicacao_MODUS_CIn_Etapa2.pptx a partir do deck da Etapa 1
+slides_etapa2.py   gera Replicacao_MODUS_CIn_Etapa2.pptx (14 slides) a partir do deck da Etapa 1
+make_samples.py    amostras de 10 mil instâncias das rodadas principais (amostra.csv.gz)
 paper/             artigo IEEE (main.tex, refs.bib, sections/, figs/)
 results/           insumos de todas as rodadas (ver abaixo)
 data/              datasets (link simbólico, fora do git; ver README)
@@ -43,7 +44,8 @@ Documentos:
 
 ## Ambiente
 
-- Python 3.13 em `.venv/` (`capymoa pandas matplotlib python-pptx`).
+- Python 3.13 (`capymoa pandas matplotlib python-pptx pymupdf`). Use um venv fora do OneDrive
+  (ex.: `~/.venvs/modus`): o OneDrive deixa arquivos do `.venv` só na nuvem e os imports travam.
 - Java 17 para o CapyMOA (motor `--engine moa`). No macOS:
   `export JAVA_HOME=/opt/homebrew/opt/openjdk@17 PATH=$JAVA_HOME/bin:$PATH`.
   O motor `--engine numpy` (src/hst.py) não precisa de Java.
@@ -58,6 +60,12 @@ Documentos:
   `warmup_end`, `attacks_trained` (fração do ataque usada no treino = envenenamento), `engine`.
 - `scores.csv.gz`: por instância `t, label, score, tau, pred, flag, trained, score_frozen`.
   Fica fora do git (centenas de MB); é regenerado por `run.py`.
+- `amostra.csv.gz` (rodadas principais): 10 mil linhas de `scores.csv.gz` (5 mil benignas e 5 mil
+  de ataque, semente 0), geradas por `make_samples.py`. Estas vão para o git.
+- `model.npz` (só `ppq_all` do ASEADOS e do CTU-13 e `ppq_all_all` do Edge-IIoT, via
+  `--save-model`): HST adaptativo final (`adaptive_*`) e HST congelado (`frozen_*`), com `attr`,
+  `split`, `r` e `l` por árvore, mais `tau_frozen`, `tau_final`, `warmup_end`, `train_cap` e
+  `features`. A normalização congelada não vai junto: ela é refeita com o mín/máx do aquecimento.
 
 Métricas são sempre da fase operacional (após o aquecimento). "F1 oráculo" em `modus_pp.md` usa
 rótulos para escolher o limiar: é só um teto, não resultado do método.
@@ -123,7 +131,6 @@ está em `results/<base>/<nome>/metrics.json` -> `config`.
 
 - Artigo (`paper/`): completo, compila em 10 páginas (`cd paper && tectonic main.tex`). Falta a
   revisão final dos autores.
-- Modelos treinados ainda não são salvos em disco (podem ser refeitos com a mesma semente).
 
 ## Convenções
 

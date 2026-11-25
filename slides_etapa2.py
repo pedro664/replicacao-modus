@@ -161,10 +161,54 @@ sldIdLst = prs.slides._sldIdLst
 for sid in list(sldIdLst)[1:-1]:
     prs.part.drop_rel(sid.rId)
     sldIdLst.remove(sid)
+# o encerramento é slide14.xml no deck original; renomeia para não colidir com os slides novos
+from pptx.opc.packuri import PackURI  # noqa: E402
+closing.part.partname = PackURI("/ppt/slides/slide99.xml")
 
 page = 2
 
-# 2. Onde paramos
+# 2. Recapitulando a Etapa 1
+s = light_slide(prs)
+header(s, "Recapitulando a Etapa 1", "O método, a replicação nas três bases e o que propusemos", page)
+cols = [(0.5, "O que é o MODUS"), (3.55, "Replicação (F1)"), (6.6, "O que propusemos")]
+for x, title in cols:
+    box(s, x, 1.95, 2.9, 3.25, CARD)
+    text(s, x + 0.15, 2.05, 2.6, 0.3, title, size=13, color=DARK, bold=True)
+steps = [("ADWIN", "detecta mudança no tamanho e vira atributo"),
+         ("HST", "floresta que mede o quão raro é cada pacote"),
+         ("Limiar MAD", "mediana + α·desvio dos scores recentes"),
+         ("Treino seletivo", "só aprende com o que parece normal")]
+for i, (name, desc) in enumerate(steps):
+    y = 2.5 + i * 0.66
+    num_badge(s, 0.65, y, str(i + 1))
+    text(s, 1.08, y - 0.02, 2.25, 0.62, [[(name, {"bold": True, "color": DARK})], desc], size=10, space_after=1)
+rows = [("Base", "Artigo", "Nosso"), ("ASEADOS", "99,62", "99,73"), ("CTU-13", "83,79", "64,55"),
+        ("Edge-IIoT", "81,24", "84,33")]
+tbl = s.shapes.add_table(len(rows), 3, Inches(3.65), Inches(2.5), Inches(2.7), Inches(1.6)).table
+for j, wd in enumerate((1.1, 0.8, 0.8)):
+    tbl.columns[j].width = Inches(wd)
+for i, row in enumerate(rows):
+    for j, v in enumerate(row):
+        c = tbl.cell(i, j)
+        c.fill.solid()
+        c.fill.fore_color.rgb = rgb(DARK if i == 0 else "FFFFFF")
+        c.text_frame.paragraphs[0].alignment = PP_ALIGN.LEFT if j == 0 else PP_ALIGN.RIGHT
+        r = c.text_frame.paragraphs[0].add_run()
+        r.text = v
+        r.font.size, r.font.name, r.font.bold = Pt(11), "Arial", i == 0 or j == 2
+        r.font.color.rgb = rgb("FFFFFF" if i == 0 else (RED if j == 2 and i == 2 else DARK))
+text(s, 3.7, 4.25, 2.6, 0.9, "CTU-13 não replica: os rótulos do artigo são inconsistentes. "
+     "O 99,73% do ASEADOS será revisitado adiante.", size=9, color=MUTED)
+bullets(s, 6.7, 2.5, 2.65, 2.7, [
+    [("Melhorias: ", {"bold": True}), ("normalização online, taxa por janela, aquecimento adaptativo, "
+                                      "teste com ataques não-DDoS", {})],
+    [("Trabalhos futuros: ", {"bold": True}), ("janela em tempo, teto de treino, modelo de referência "
+                                              "congelado", {})],
+    [("Etapa 2: ", {"bold": True, "color": RED}), ("implementar e medir todas", {})],
+], size=10)
+page += 1
+
+# 3. Onde paramos
 s = dark_slide(prs)
 box(s, 0, 0.94, 3.6, 0.65, RED)
 text(s, 0.35, 0.99, 3.2, 0.54, "Onde paramos", size=30, color="FFFFFF", bold=True, anchor=MSO_ANCHOR.MIDDLE)
@@ -380,7 +424,27 @@ for i, row in enumerate(rows):
         r.font.color.rgb = rgb("FFFFFF" if i == 0 else (RED if i == 6 and j > 1 else DARK))
 page += 1
 
-# 10. Conclusões
+# 10. Insumos e reprodutibilidade
+s = light_slide(prs)
+header(s, "Insumos e reprodutibilidade", "Tudo o que foi gerado no estudo está no repositório, por rodada", page)
+items = [
+    ("Código", "MODUS, MODUS++ e HST em numpy (idêntico ao MOA); run.py roda qualquer config"),
+    ("Logs e métricas", "89 rodadas: log.txt e metrics.json com a config exata de cada uma"),
+    ("Amostras", "10 mil instâncias por rodada principal (score, limiar, predição, rótulo)"),
+    ("Modelos", "HST adaptativo final e HST congelado do MODUS++ nas 3 bases (model.npz)"),
+    ("Imagens", "Figuras dos slides e do artigo (results/figs, paper/figs)"),
+    ("Tabelas", "modus_pp.md (Etapa 2), tabela_rodadas.md e comparacao.md (Etapa 1)"),
+]
+for i, (title, body) in enumerate(items):
+    x, y = 0.5 + (i % 3) * 3.05, 1.95 + (i // 3) * 1.4
+    card(s, x, y, 2.9, 1.28, str(i + 1), title, body, size=10)
+text(s, 0.5, 4.85, 9.0, 0.3,
+     [[("github.com/pedro664/replicacao-modus", {"bold": True, "color": RED}),
+       ("  ·  branch etapa2-melhorias  ·  guia completo em CLAUDE.md e README.md", {})]],
+     size=12, color=DARK)
+page += 1
+
+# 11. Conclusões
 s = prs.slides.add_slide(BLANK)
 box(s, 0, 0, 5.0, 5.63, DARK)
 box(s, 4.95, 0, 5.05, 5.63, RED2)
