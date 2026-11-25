@@ -1,0 +1,103 @@
+{
+  "args": {
+    "dataset": "aseados",
+    "name": "nl_all_fixed_plus",
+    "order": null,
+    "variant": "paper",
+    "classes": "all",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null,
+    "label_in_stream": false
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "proto",
+    "length",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": null,
+    "warmup": 50000,
+    "label_in_stream": false
+  },
+  "metrics_total": {
+    "VP": 85696,
+    "VN": 184912,
+    "FP": 75885,
+    "FN": 110551,
+    "accuracy": 0.5920830379569582,
+    "precision": 0.5303593863139849,
+    "recall": 0.43667419119782724,
+    "f1": 0.47897872720972084
+  },
+  "metrics_post_warmup": {
+    "VP": 85696,
+    "VN": 155623,
+    "FP": 75885,
+    "FN": 89840,
+    "accuracy": 0.5928572832421065,
+    "precision": 0.5303593863139849,
+    "recall": 0.48819615349557927,
+    "f1": 0.5084050937804976
+  },
+  "score_metrics": {
+    "roc_auc": 0.44674893210353595,
+    "pr_auc": 0.44663597344160993
+  },
+  "per_type_post_warmup": {
+    "Benign": {
+      "n": 231508,
+      "alarm_rate": 0.32778564887606476
+    },
+    "Bot": {
+      "n": 9090,
+      "alarm_rate": 1.0
+    },
+    "DDoS": {
+      "n": 51465,
+      "alarm_rate": 1.0
+    },
+    "Dos": {
+      "n": 107061,
+      "alarm_rate": 0.1608522244328
+    },
+    "Prob": {
+      "n": 7920,
+      "alarm_rate": 1.0
+    }
+  },
+  "elapsed_s": 64.70029750000685,
+  "adwin_changes": 524,
+  "paper": {
+    "VP": 51465,
+    "VN": 260406,
+    "FP": 391,
+    "FN": 0,
+    "accuracy": 0.9987,
+    "precision": 0.9925,
+    "recall": 1.0,
+    "f1": 0.9962,
+    "elapsed_s": 189.02
+  }
+}

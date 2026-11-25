@@ -1,0 +1,17 @@
+run=ppq_base_allcls dataset=aseados features=plus preset=fixed_q order=None variant=paper classes=all norm=none n=457044 ataques=196247
+aquecimento: 20711 ataques nas primeiras 50000 instâncias
+atributos: ['sport', 'dport', 'proto', 'length', 'rate_all', 'rate_dst'] (ADWIN em length)
+config: {'hst_window': 250, 'hst_trees': 25, 'hst_depth': 15, 'hst_size_limit': 0.1, 'seed': 1, 'pad_class_dim': False, 'window_s': None, 'min_window_mass': 50, 'adwin_delta': 0.001, 'use_drift_flag': True, 'alpha': 5.189028910303929, 'tau_min': 0.5, 'tau_max': None, 'mad_window': 5000, 'n_min': 1000, 'tau_min_quantile': 0.999, 'warmup': 50000, 'warmup_adaptive': False, 'warmup_min': 5000, 'warmup_max': 50000, 'warmup_stable': 5000, 'warmup_delta': 0.002, 'train_cap': None, 'train_cap_key': 'dst', 'train_cap_q': 0.99, 'frozen': False, 'frozen_calib': 0.2, 'frozen_q': 0.999}
+ADWIN: 524 mudanças detectadas
+fim do aquecimento em t=50000
+piso automático (quantil 0.999): 0.8567
+total (convenção do artigo): VP=623 VN=260619 FP=178 FN=195624 acc=0.5716 prec=0.7778 rec=0.0032 f1=0.0063
+pós-aquecimento: VP=623 VN=231330 FP=178 FN=174913 acc=0.5698 prec=0.7778 rec=0.0035 f1=0.0071
+scores pós-aquecimento: AUC-ROC=0.2306 PR-AUC=0.3125
+ataques usados no treino (envenenamento): 99.65%
+  Benign                   n=   231,508  alarmes=  0.08%
+  Bot                      n=     9,090  alarmes=  0.00%
+  DDoS                     n=    51,465  alarmes=  0.00%
+  Dos                      n=   107,061  alarmes=  0.58%
+  Prob                     n=     7,920  alarmes=  0.00%
+tempo: 198.9s (artigo: 189.02s)

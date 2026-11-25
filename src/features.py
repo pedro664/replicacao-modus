@@ -32,16 +32,25 @@ def window_counts(ts: np.ndarray, window_s: float, key: np.ndarray | None = None
     return out
 
 
-def online_minmax(X: np.ndarray) -> np.ndarray:
-    """Min-Max causal: cada coluna escalada pelo mín/máx observados até a instância atual."""
+def online_minmax(X: np.ndarray, freeze_at: int | None = None) -> np.ndarray:
+    """Min-Max causal: cada coluna escalada pelo mín/máx observados até a instância atual.
+
+    Com `freeze_at`, a escala para de mudar depois dessa instância (fim do aquecimento): um flood não
+    consegue mais esticar o máximo e comprimir o tráfego normal, e modelos treinados antes continuam
+    na mesma escala. Valores fora do intervalo do aquecimento ficam fora de [0, 1].
+    """
     lo = np.minimum.accumulate(X, axis=0)
     hi = np.maximum.accumulate(X, axis=0)
+    if freeze_at is not None and freeze_at < len(X):
+        lo[freeze_at:] = lo[freeze_at - 1]
+        hi[freeze_at:] = hi[freeze_at - 1]
     rng = hi - lo
     return np.where(rng > 0, (X - lo) / np.where(rng > 0, rng, 1.0), 0.0)
 
 
 def modus_plus_features(X: np.ndarray, names: list[str], ts: np.ndarray, dst: np.ndarray,
-                        window_s: float = 1.0, rates: bool = True) -> tuple[np.ndarray, list[str], int]:
+                        window_s: float = 1.0, rates: bool = True,
+                        freeze_at: int | None = None) -> tuple[np.ndarray, list[str], int]:
     """Atributos do MODUS+: os 4 originais + taxa global e taxa por destino, com log1p nos
     atributos de magnitude (tamanho e taxas) e Min-Max online em todos.
     rates=False dá só a normalização online dos 4 originais (ablação).
@@ -52,8 +61,8 @@ def modus_plus_features(X: np.ndarray, names: list[str], ts: np.ndarray, dst: np
     Xr = X.astype(np.float64).copy()
     Xr[:, size_col] = np.log1p(Xr[:, size_col])
     if not rates:
-        return online_minmax(Xr), list(names), size_col
+        return online_minmax(Xr, freeze_at), list(names), size_col
     rate_all = window_counts(ts, window_s)
     rate_dst = window_counts(ts, window_s, key=dst)
     Xp = np.column_stack([Xr, np.log1p(rate_all), np.log1p(rate_dst)])
-    return online_minmax(Xp), list(names) + ["rate_all", "rate_dst"], size_col
+    return online_minmax(Xp, freeze_at), list(names) + ["rate_all", "rate_dst"], size_col

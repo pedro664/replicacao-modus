@@ -1,0 +1,63 @@
+\section{Fundamentação e Trabalhos Relacionados}
+\label{sec:background}
+
+\subsection{Detecção de anomalias em fluxos}
+No paradigma de fluxo de dados, cada instância é processada uma única vez, na ordem de chegada,
+com memória limitada e sem acesso ao futuro~\cite{gama2014drift}. A avaliação usual é
+\emph{test-then-train}: o modelo pontua a instância e só então pode aprender com ela. Para tráfego
+de rede, a vantagem é dupla: o detector acompanha a deriva do tráfego legítimo e não exige rótulos,
+o que em tese permite detectar ataques nunca vistos~\cite{mirsky2018kitsune}. O preço é conhecido:
+um detector que aprende continuamente com o tráfego também pode aprender o ataque.
+
+\subsection{Half-Space Trees}
+As Half-Space Trees (HST)~\cite{tan2011hst} são um conjunto de árvores binárias completas,
+construídas \emph{sem olhar os dados}: cada nó corta um atributo sorteado no ponto médio do seu
+espaço de trabalho, que é um intervalo aleatório em torno de $[0,1]$. Por isso o HST pressupõe
+atributos normalizados nesse intervalo. Cada nó guarda duas massas: $r$, a contagem de instâncias da
+janela de referência (a anterior), e $l$, a da janela corrente. O score de uma instância soma, em
+cada árvore, $r \cdot 2^{p}$ no primeiro nó do seu caminho com massa abaixo de um limite
+(\emph{size limit}), onde $p$ é a profundidade desse nó. Pouca massa em regiões rasas indica
+anomalia. Ao fim de cada janela de $W$ instâncias, $r \leftarrow l$ e $l \leftarrow 0$. No MOA~\cite{bifet2010moa},
+usado pelo CapyMOA~\cite{gomes2025capymoa}, o score é normalizado para $[0,1]$ com $1$ = anômalo.
+
+\subsection{ADWIN e limiar robusto}
+O ADWIN~\cite{bifet2007adwin} mantém uma janela de tamanho variável sobre uma sequência numérica e
+corta a parte antiga quando duas subjanelas têm médias estatisticamente diferentes (parâmetro
+$\delta$). É o detector de mudança de conceito mais usado em fluxos. Para limiares sobre scores, o
+\modus\ usa mediana e desvio absoluto mediano (MAD), robustos a valores extremos. O critério do
+z-score modificado de Iglewicz e Hoaglin~\cite{iglewicz1993outliers} marca como \emph{outlier} um
+valor com $0{,}6745\,(s-\tilde{s})/\mathrm{MAD} > 3{,}5$, ou seja, $s > \tilde{s} + 5{,}19\cdot\mathrm{MAD}$.
+
+\subsection{Envenenamento de detectores de anomalia}
+Detectores que se retreinam com o tráfego observado são vulneráveis a envenenamento: o atacante
+desloca gradualmente o perfil ``normal'' até que o ataque passe despercebido. O ANTIDOTE~\cite{rubinstein2009antidote}
+mostrou isso para detectores baseados em PCA e propôs estimadores robustos como defesa. Em DDoS
+volumétrico nem é preciso um atacante sofisticado: o próprio \emph{flood} é tão denso que, se
+uma fração dele entra no treino, passa a dominar a massa do modelo. A defesa comum dos
+detectores online é treinar só com o que foi predito como benigno~\cite{modus2026}; mostramos
+na Seção~\ref{sec:results} que isso não basta.
+
+\subsection{Armadilhas metodológicas}
+Arp \emph{et al.}~\cite{arp2022dos} catalogam erros recorrentes de aprendizado de máquina em
+segurança. Três deles aparecem neste trabalho: \emph{data snooping} (normalização com estatísticas
+do conjunto inteiro), \emph{label leakage}~\cite{kaufman2012leakage} (informação do rótulo chegando
+ao modelo) e ajuste de hiperparâmetros por base de teste. Sommer e Paxson~\cite{sommer2010outside}
+já alertavam que detectores de anomalia em redes tendem a acertar pelos motivos errados quando a
+avaliação não isola o que o modelo realmente aprendeu. Replicações independentes são o principal
+remédio para esses problemas~\cite{baker2016reproducibility}.
+
+\subsection{O método \modus}
+O \modus~\cite{modus2026} propõe três fases aplicadas a cada pacote (ou fluxo):
+(a) preparação: ordenação temporal, seleção de quatro atributos (portas de origem e destino,
+protocolo e tamanho) e vetorização;
+(b) mudança de conceito: um ADWIN monitora o tamanho do pacote e emite uma \emph{flag} binária,
+concatenada ao vetor como quinto atributo;
+(c) detecção: um HST pontua a instância, que é ataque se o score passa do limiar
+$\tau = \min(\tau_{\max}, \max(\tau_{\min}, \tilde{S} + \alpha\cdot\mathrm{MAD}(S)))$, calculado
+sobre uma janela $S$ de scores recentes. Após um aquecimento de $B=50.000$ instâncias, só as
+instâncias preditas como benignas treinam o HST e entram em $S$. A contribuição central alegada é
+usar a mudança de conceito como \emph{informação} para o detector, e não só como gatilho de
+retreino. O artigo reporta F1 de 99,62\% (ASEADOS-SDN-IoT~\cite{aseados}), 83,79\%
+(CTU-13, cenário 11~\cite{garcia2014ctu13}) e 81,24\% (Edge-IIoTset~\cite{ferrag2022edgeiiot}),
+com hiperparâmetros ($W$, nº de árvores, profundidade, $\alpha$, $\tau_{\min}$, $\tau_{\max}$)
+escolhidos por base.

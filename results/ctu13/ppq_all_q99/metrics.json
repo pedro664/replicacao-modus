@@ -1,0 +1,128 @@
+{
+  "args": {
+    "dataset": "ctu13",
+    "name": "ppq_all_q99",
+    "order": null,
+    "variant": "paper",
+    "classes": "ddos",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed_q",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null,
+    "label_in_stream": false,
+    "engine": "numpy",
+    "pad_class_dim": false,
+    "window_s": 10.0,
+    "warmup_adaptive": true,
+    "warmup_min": 5000,
+    "warmup_stable": 5000,
+    "train_cap": 1.0,
+    "cap_key": "dst",
+    "frozen": true,
+    "frozen_q": 0.99,
+    "norm_freeze": true
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "pad_class_dim": false,
+    "window_s": 10.0,
+    "min_window_mass": 50,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000,
+    "warmup_adaptive": true,
+    "warmup_min": 5000,
+    "warmup_max": 50000,
+    "warmup_stable": 5000,
+    "warmup_delta": 0.002,
+    "train_cap": 1.0,
+    "train_cap_key": "dst",
+    "train_cap_q": 0.99,
+    "frozen": true,
+    "frozen_calib": 0.2,
+    "frozen_q": 0.99
+  },
+  "metrics_total": {
+    "VP": 1605317,
+    "VN": 4092049,
+    "FP": 214028,
+    "FN": 425000,
+    "accuracy": 0.8991495793979983,
+    "precision": 0.8823598602793863,
+    "recall": 0.7906730820852114,
+    "f1": 0.8340041281546277
+  },
+  "metrics_post_warmup": {
+    "VP": 1605317,
+    "VN": 4056731,
+    "FP": 214028,
+    "FN": 425000,
+    "accuracy": 0.8985843052837325,
+    "precision": 0.8823598602793863,
+    "recall": 0.7906730820852114,
+    "f1": 0.8340041281546277
+  },
+  "score_metrics": {
+    "roc_auc": 0.9270972888571468,
+    "pr_auc": 0.801350515975865
+  },
+  "metrics_after_default_warmup": {
+    "VP": 1605317,
+    "VN": 4042591,
+    "FP": 213487,
+    "FN": 424999,
+    "accuracy": 0.8984336648323347,
+    "precision": 0.8826223166432446,
+    "recall": 0.7906734715187193,
+    "f1": 0.834121565448726
+  },
+  "warmup_end": 35318,
+  "attacks_trained": 0.008948356340413837,
+  "engine": "numpy",
+  "per_type_post_warmup": {
+    "Benign": {
+      "n": 4270759,
+      "alarm_rate": 0.05011474541176404
+    },
+    "Botnet": {
+      "n": 2030317,
+      "alarm_rate": 0.7906730820852114
+    }
+  },
+  "elapsed_s": 669.9902901659952,
+  "adwin_changes": 869,
+  "paper": {
+    "VP": 2088551,
+    "VN": 3440093,
+    "FP": 6796,
+    "FN": 800954,
+    "accuracy": 0.8725,
+    "precision": 0.9967,
+    "recall": 0.7228,
+    "f1": 0.8379,
+    "elapsed_s": 2895.26
+  }
+}

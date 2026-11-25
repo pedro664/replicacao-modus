@@ -1,0 +1,28 @@
+run=ppq_all dataset=ctu13 features=plus preset=fixed_q order=None variant=paper classes=ddos norm=none n=6336394 ataques=2030317
+aquecimento: 1 ataques nas primeiras 50000 instâncias
+atributos: ['sport', 'dport', 'length', 'proto', 'rate_all', 'rate_dst'] (ADWIN em length)
+config: {'hst_window': 250, 'hst_trees': 25, 'hst_depth': 15, 'hst_size_limit': 0.1, 'seed': 1, 'pad_class_dim': False, 'window_s': 10.0, 'min_window_mass': 50, 'adwin_delta': 0.001, 'use_drift_flag': True, 'alpha': 5.189028910303929, 'tau_min': 0.5, 'tau_max': None, 'mad_window': 5000, 'n_min': 1000, 'tau_min_quantile': 0.999, 'warmup': 50000, 'warmup_adaptive': True, 'warmup_min': 5000, 'warmup_max': 50000, 'warmup_stable': 5000, 'warmup_delta': 0.002, 'train_cap': 1.0, 'train_cap_key': 'dst', 'train_cap_q': 0.99, 'frozen': True, 'frozen_calib': 0.2, 'frozen_q': 0.999}
+ADWIN: 869 mudanças detectadas
+fim do aquecimento em t=35318
+piso automático (quantil 0.999): 0.5000
+teto de treino: 398.4 instâncias/s por dst
+modelo congelado: 28254 instâncias, limiar 0.7770 (quantil 0.999 de 7064)
+  523715/6336394 instâncias  (245.3s)
+  1045624/6336394 instâncias  (392.9s)
+  1574913/6336394 instâncias  (539.2s)
+  2080895/6336394 instâncias  (695.9s)
+  2668459/6336394 instâncias  (831.4s)
+  3207430/6336394 instâncias  (971.2s)
+  3828788/6336394 instâncias  (1117.4s)
+  4555466/6336394 instâncias  (1164.8s)
+  5059552/6336394 instâncias  (1201.3s)
+  5573437/6336394 instâncias  (1230.6s)
+  6141549/6336394 instâncias  (1266.0s)
+total (convenção do artigo): VP=66 VN=4195214 FP=110863 FN=2030251 acc=0.6621 prec=0.0006 rec=0.0000 f1=0.0001
+pós-aquecimento: VP=66 VN=4159896 FP=110863 FN=2030251 acc=0.6602 prec=0.0006 rec=0.0000 f1=0.0001
+scores pós-aquecimento: AUC-ROC=0.7293 PR-AUC=0.4903
+após t=50000 (comum): prec=0.0006 rec=0.0000 f1=0.0001
+ataques usados no treino (envenenamento): 2.41%
+  Benign                   n= 4,270,759  alarmes=  2.60%
+  Botnet                   n= 2,030,317  alarmes=  0.00%
+tempo: 1293.6s (artigo: 2895.26s)

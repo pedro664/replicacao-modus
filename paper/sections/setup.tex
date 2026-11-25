@@ -1,0 +1,42 @@
+\section{Metodologia Experimental}
+\label{sec:setup}
+
+\subsection{Bases}
+\textbf{ASEADOS-SDN-IoT}~\cite{aseados}: registros de fluxo de uma rede SDN-IoT. Usamos as classes
+Benign e DDoS (312.262 fluxos, 16,5\% de ataque), como o artigo, e todas as cinco classes (Benign,
+Bot, DDoS, DoS, Probe; 457.044 fluxos) para o teste com ataques não-DDoS. A ordem é a do artigo
+(Seção~\ref{sec:replication}), em que o DDoS dura 1.117\,s, a cerca de 46 fluxos/s, depois de
+233 mil fluxos benignos.
+\textbf{CTU-13, cenário 11}~\cite{garcia2014ctu13}: 6.336.394 pacotes em 971\,s (cerca de
+6.500 pacotes/s), com o \emph{botnet} Rbot fazendo um \emph{flood} ICMP de cerca de 17 mil
+pacotes/s contra um alvo. O rótulo é a regra oficial: o pacote é ataque se envolve um dos três IPs
+infectados (32,0\%).
+\textbf{Edge-IIoTset}~\cite{ferrag2022edgeiiot}: \emph{pcaps} de um \emph{testbed} IIoT, todos os
+quadros, ordenados por tempo.
+
+\subsection{Configurações}
+Para não ajustar hiperparâmetros na base de teste, todas as rodadas do \modusp\ usam uma única
+configuração, \texttt{fixed\_q}, definida na Etapa~1:
+HST com os valores padrão de Tan \emph{et al.}~\cite{tan2011hst} ($W=250$, 25 árvores, profundidade
+15, \emph{size limit} 0,1); limiar $\tilde{S} + 5{,}19\cdot\mathrm{MAD}$ (z-score modificado de
+Iglewicz e Hoaglin) sobre $|S|=5.000$; piso automático igual ao quantil 0,999 dos scores do
+aquecimento; e ADWIN com $\delta=0{,}001$ no tamanho. Os parâmetros novos foram fixados antes das
+rodadas: janela de 10\,s, teto por destino no percentil 99 do aquecimento, quantil 0,999 para o
+limiar congelado, $B_{\min}=B_{\mathrm{est}}=5.000$ e $B_{\max}=50.000$. As variações desses
+valores aparecem apenas como análise de sensibilidade (Seção~\ref{sec:sens}), sempre identificadas
+como tal. Como referência, reportamos também o \modus\ com os hiperparâmetros do artigo para cada
+base.
+
+\subsection{Métricas}
+Reportamos precisão, recall e F1 da classe ataque na fase operacional, isto é, após o fim do
+aquecimento de cada rodada. Para comparar aquecimentos de tamanhos diferentes, também calculamos as
+métricas no trecho comum após as 50 mil instâncias. Reportamos ainda duas métricas independentes
+de limiar: a AUC-ROC e a PR-AUC dos scores (no \modusp, do modelo adaptativo; quando indicado, do
+congelado). Para medir o envenenamento diretamente, reportamos a fração das instâncias de ataque
+pós-aquecimento que foram usadas no treino do modelo adaptativo.
+
+\subsection{Implementação e reprodutibilidade}
+O código, os \emph{logs} e as métricas de todas as rodadas estão no repositório do trabalho. Os
+\emph{scores} por instância são regenerados pelo \texttt{run.py}. As rodadas foram feitas em um Mac
+ARM de 10 núcleos e 16\,GB, com Python 3.13, CapyMOA 0.15 e OpenJDK 17, várias em paralelo. Por isso
+os tempos são indicativos.

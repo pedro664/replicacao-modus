@@ -1,0 +1,66 @@
+\section{Replicação do \modus\ (Etapa 1) e Vazamento de Rótulo}
+\label{sec:replication}
+
+Não há código público dos autores. Reimplementamos o \modus\ a partir do texto, em Python, com o
+HST e o ADWIN do CapyMOA~\cite{gomes2025capymoa}, que encapsula o MOA~\cite{bifet2010moa}. Os
+hiperparâmetros são os da Seção~4.1 do artigo, por base. Nas três bases chegamos exatamente ao
+número de instâncias reportado. No ASEADOS são 312.262 fluxos (classes Benign e DDoS). No CTU-13
+são 6.336.394 pacotes IPv4 do \emph{pcap} truncado do cenário 11. No Edge-IIoTset são 30.919.961
+quadros: a única combinação que fecha esse total usa os \emph{pcaps} normais duas vezes, o
+\emph{Port Scanning} como benigno e os quatro DDoS.
+
+\subsection{Resultados da Etapa 1}
+A Tabela~\ref{tab:repl} resume a replicação. No ASEADOS e no Edge-IIoT os números do artigo se
+reproduzem; no Edge-IIoT, os verdadeiros positivos e falsos negativos são idênticos pacote a pacote.
+No CTU-13 a replicação não fecha: os rótulos do artigo são internamente inconsistentes. A regra
+oficial do CTU-13 (IPs infectados) dá 32,04\% de ataques, exatamente o valor que a Tabela~1 do
+artigo chama de ``Benigno'', e a matriz de confusão implica 2,89 milhões de ataques, total que
+nenhuma regra testada reproduz. A análise da Etapa~1 mostrou ainda que:
+(i) a \emph{flag} do ADWIN, contribuição central do artigo, não altera nenhuma predição no CTU-13 e
+altera um pacote em 19,6 milhões no Edge-IIoT;
+(ii) sem normalização, o HST separa por protocolo e não por volume: os cortes caem em $[0,1]$ e
+portas e tamanhos ficam sempre do mesmo lado. O recall de 73,16\% no Edge-IIoT é exatamente a
+fração de DDoS que não é TCP;
+(iii) o limiar passa quase todo o tempo preso no piso $\tau_{\min}$, ajustado à mão por base;
+(iv) no ASEADOS, a ordem ``temporal'' que reproduz o artigo vem de um erro de leitura de datas
+(dd/mm lido como mm/dd). Na ordem cronológica correta o DDoS ocorre durante o aquecimento e o F1 é 0\%.
+
+\begin{table}[t]
+\centering
+\caption{Replicação do \modus\ (F1 \%, convenção do artigo). ``Com rótulo'': o HST do MOA recebe o
+rótulo verdadeiro como atributo (Etapa~1). ``Sem rótulo'': fluxo corrigido.}
+\label{tab:repl}
+\begin{tabular}{lccc}
+\toprule
+Base & Artigo & Com rótulo & Sem rótulo \\
+\midrule
+ASEADOS-SDN-IoT & 99,62 & 99,73 & \textbf{0,00} \\
+CTU-13 (C11)    & 83,79 & 64,55 & 64,55 \\
+Edge-IIoTset    & 81,24 & 84,33 & \EDGENL \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{O HSTrees do MOA usa o rótulo como atributo}
+\label{sec:leak}
+Ao portar o HST para \texttt{numpy} (Seção~\ref{sec:hstnp}), notamos que o MOA dimensiona o espaço de
+trabalho com \texttt{instance.numAttributes()}, que \emph{inclui o atributo de classe}. Quando o fluxo
+carrega o rótulo verdadeiro, como no uso padrão do CapyMOA, em que \texttt{NumpyStream} recebe
+\texttt{X} e \texttt{y}, cerca de $1/(d+1)$ dos cortes de cada árvore separam ataque de benigno pelo
+próprio rótulo. Isso também vale para a pontuação, porque \texttt{score\_instance} recebe a mesma
+instância. Verificamos o efeito diretamente: com o mesmo vetor de atributos e só o rótulo trocado,
+o score do MOA muda até 0,10.
+
+O efeito sobre a replicação depende de os atributos já separarem as classes. No CTU-13 eles
+separam: o \emph{flood} é ICMP. As predições com e sem rótulo são idênticas nas 6,3 milhões de
+instâncias. No ASEADOS não separam: todo fluxo DDoS é o vetor $[0,0,0,0]$, idêntico a 42.740 fluxos
+benignos, e o que dava a esses fluxos o score constante de 0,806, acima do piso de 0,75, era a
+dimensão do rótulo. Sem ela, o recall cai de 100\% para 0\% e a AUC-ROC de 1,00 para 0,11. O
+detector passa a considerar o DDoS \emph{mais normal} que o tráfego benigno: o ataque passa no
+início, treina o modelo e vira o perfil de referência.
+
+Não sabemos se a implementação dos autores tem o mesmo problema, pois o código não é público. O
+resultado mostra, porém, que os 99,62\% no
+ASEADOS são reproduzíveis \emph{exatamente} com o vazamento e não são reproduzíveis sem ele. Daqui
+em diante, todas as rodadas usam o fluxo corrigido: o MOA recebe um rótulo constante, e o motor
+\texttt{numpy} não tem a dimensão do rótulo.

@@ -21,6 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 from datasets import load_aseados, load_ctu13, load_edgeiiot  # noqa: E402
 from features import modus_plus_features  # noqa: E402
 from modus import ModusConfig, metrics, run_modus, score_metrics  # noqa: E402
+from modus_plus import ModusPPConfig, run_modus_pp  # noqa: E402
 
 # Seção 4.1 e Tabelas 2/3 do artigo
 PRESETS = {
@@ -74,6 +75,25 @@ def main():
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--warmup", type=int, default=50_000)
     ap.add_argument("--tau-min", type=float, default=None)
+    ap.add_argument("--label-in-stream", action="store_true",
+                    help="passa o rótulo verdadeiro ao HST do MOA (vazamento; reproduz as rodadas antigas)")
+    # MODUS++ (motor numpy, src/modus_plus.py)
+    ap.add_argument("--engine", default="moa", choices=["moa", "numpy"],
+                    help="moa: HSTrees do CapyMOA (artigo); numpy: src/hst.py, necessário para as melhorias abaixo")
+    ap.add_argument("--pad-class-dim", action="store_true",
+                    help="numpy: inclui a dimensão constante do atributo de classe (idêntico ao MOA sem rótulo)")
+    ap.add_argument("--window-s", type=float, default=None, help="melhoria: janela de referência do HST em segundos")
+    ap.add_argument("--warmup-adaptive", action="store_true", help="melhoria: fim do aquecimento por estabilidade (ADWIN)")
+    ap.add_argument("--warmup-min", type=int, default=5_000)
+    ap.add_argument("--warmup-stable", type=int, default=5_000)
+    ap.add_argument("--train-cap", type=float, default=None,
+                    help="melhoria: teto de treino/s = fator x quantil 99%% das contagens/s do aquecimento")
+    ap.add_argument("--cap-key", default="dst", choices=["global", "dst"])
+    ap.add_argument("--frozen", action="store_true", help="melhoria: modelo de referência congelado no aquecimento")
+    ap.add_argument("--frozen-q", type=float, default=0.999,
+                    help="limiar do modelo congelado: quantil dos scores na calibração (fim do aquecimento)")
+    ap.add_argument("--norm-freeze", action="store_true",
+                    help="melhoria: Min-Max online congelado ao fim do aquecimento (--warmup)")
     args = ap.parse_args()
     # MODUS+ normaliza online; não usa a normalização global (que olha o futuro)
     norm = "none" if args.features != "paper" else (args.norm or DEFAULT_NORM[args.dataset])
@@ -90,7 +110,20 @@ def main():
     preset = dict(PRESETS[args.preset or args.dataset])
     if args.tau_min is not None:
         preset["tau_min"] = args.tau_min
-    cfg = ModusConfig(use_drift_flag=not args.no_flag, seed=args.seed, warmup=args.warmup, **preset)
+    improvements = (args.window_s is not None or args.warmup_adaptive or args.train_cap is not None
+                    or args.frozen or args.pad_class_dim)
+    if improvements and args.engine != "numpy":
+        ap.error("as melhorias do MODUS++ exigem --engine numpy")
+    if args.engine == "moa":
+        cfg = ModusConfig(use_drift_flag=not args.no_flag, seed=args.seed, warmup=args.warmup,
+                          label_in_stream=args.label_in_stream, **preset)
+    else:
+        cfg = ModusPPConfig(use_drift_flag=not args.no_flag, seed=args.seed, warmup=args.warmup,
+                            pad_class_dim=args.pad_class_dim, window_s=args.window_s,
+                            warmup_adaptive=args.warmup_adaptive, warmup_min=args.warmup_min,
+                            warmup_max=args.warmup, warmup_stable=args.warmup_stable,
+                            train_cap=args.train_cap, train_cap_key=args.cap_key, frozen=args.frozen,
+                            frozen_q=args.frozen_q, **preset)
 
     if args.dataset == "aseados":
         data = load_aseados(order=args.order or "paper", normalization=norm, classes=args.classes)
@@ -101,16 +134,21 @@ def main():
     X, y, feats, drift_col = data["X"], data["y"], data["features"], data["drift_col"]
     if args.features != "paper":
         X, feats, drift_col = modus_plus_features(X, feats, data["ts"], data["dst"], args.rate_window,
-                                                  rates=args.features == "plus")
-    w = cfg.warmup
+                                                  rates=args.features == "plus",
+                                                  freeze_at=args.warmup if args.norm_freeze else None)
     log(f"run={args.name} dataset={args.dataset} features={args.features} preset={args.preset or args.dataset} "
         f"order={args.order} variant={args.variant} classes={args.classes} norm={norm} "
         f"n={len(y)} ataques={int(y.sum())}")
-    log(f"aquecimento: {int(y[:w].sum())} ataques nas primeiras {w} instâncias")
+    log(f"aquecimento: {int(y[:cfg.warmup].sum())} ataques nas primeiras {cfg.warmup} instâncias")
     log(f"atributos: {feats} (ADWIN em {feats[drift_col]})")
     log(f"config: {cfg.to_dict()}")
 
-    r = run_modus(X, y, X[:, drift_col], cfg, feats, log=log)
+    if args.engine == "moa":
+        r = run_modus(X, y, X[:, drift_col], cfg, feats, log=log)
+        w = cfg.warmup
+    else:
+        r = run_modus_pp(X, data["ts"], data["dst"], X[:, drift_col], cfg, log=log)
+        w = r["warmup_end"]
 
     m_all = metrics(y, r["pred"])           # convenção do artigo: aquecimento conta como "normal"
     m_post = metrics(y[w:], r["pred"][w:])  # só a fase operacional
@@ -119,6 +157,16 @@ def main():
         log(f"{label}: VP={m['VP']} VN={m['VN']} FP={m['FP']} FN={m['FN']} "
             f"acc={m['accuracy']:.4f} prec={m['precision']:.4f} rec={m['recall']:.4f} f1={m['f1']:.4f}")
     log(f"scores pós-aquecimento: AUC-ROC={m_score['roc_auc']:.4f} PR-AUC={m_score['pr_auc']:.4f}")
+    # trecho comum a todas as rodadas (após as 50 mil instâncias do artigo), para comparar aquecimentos
+    m_common = metrics(y[cfg.warmup:], r["pred"][cfg.warmup:])
+    if w != cfg.warmup:
+        log(f"após t={cfg.warmup} (comum): prec={m_common['precision']:.4f} rec={m_common['recall']:.4f} "
+            f"f1={m_common['f1']:.4f}")
+    poison = None
+    if "trained" in r:
+        att = y[w:] == 1
+        poison = float(r["trained"][w:][att].mean()) if att.any() else 0.0
+        log(f"ataques usados no treino (envenenamento): {100 * poison:.2f}%")
 
     # taxa de alarme por tipo de tráfego (fase operacional): recall para ataques, FPR para benigno
     per_type = {}
@@ -132,12 +180,16 @@ def main():
 
     json.dump({"args": vars(args), "norm": norm, "features": feats, "config": cfg.to_dict(),
                "metrics_total": m_all, "metrics_post_warmup": m_post, "score_metrics": m_score,
+               "metrics_after_default_warmup": m_common, "warmup_end": int(w), "attacks_trained": poison,
+               "engine": args.engine,
                "per_type_post_warmup": per_type, "elapsed_s": r["elapsed_s"],
                "adwin_changes": int(r["flag"].sum()), "paper": PAPER[args.dataset]},
               open(out / "metrics.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-    pd.DataFrame({"t": np.arange(len(y)), "timestamp": data["timestamp"], "label": y,
-                  "atype": data["atype"], "score": r["score"], "tau": r["tau"], "pred": r["pred"],
-                  "flag": r["flag"]}).to_csv(out / "scores.csv.gz", index=False)
+    cols = {"t": np.arange(len(y)), "timestamp": data["timestamp"], "label": y, "atype": data["atype"],
+            "score": r["score"], "tau": r["tau"], "pred": r["pred"], "flag": r["flag"]}
+    if "trained" in r:
+        cols.update(trained=r["trained"].astype(np.int8), score_frozen=r["score_frozen"])
+    pd.DataFrame(cols).to_csv(out / "scores.csv.gz", index=False)
     logf.close()
 
 

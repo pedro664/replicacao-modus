@@ -1,0 +1,113 @@
+{
+  "args": {
+    "dataset": "ctu13",
+    "name": "nl_fixedq_plus",
+    "order": null,
+    "variant": "paper",
+    "classes": "ddos",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed_q",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null,
+    "label_in_stream": false,
+    "engine": "moa",
+    "pad_class_dim": false,
+    "window_s": null,
+    "warmup_adaptive": false,
+    "warmup_min": 5000,
+    "warmup_stable": 5000,
+    "train_cap": null,
+    "cap_key": "dst",
+    "frozen": false
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000,
+    "label_in_stream": false
+  },
+  "metrics_total": {
+    "VP": 11,
+    "VN": 4077502,
+    "FP": 228575,
+    "FN": 2030306,
+    "accuracy": 0.6435068589484808,
+    "precision": 4.812193222682054e-05,
+    "recall": 5.417873169559236e-06,
+    "f1": 9.739240684526958e-06
+  },
+  "metrics_post_warmup": {
+    "VP": 11,
+    "VN": 4027503,
+    "FP": 228575,
+    "FN": 2030305,
+    "accuracy": 0.6406715837410127,
+    "precision": 4.812193222682054e-05,
+    "recall": 5.417875838046885e-06,
+    "f1": 9.739244996020192e-06
+  },
+  "score_metrics": {
+    "roc_auc": 0.00044591449055913753,
+    "pr_auc": 0.18246780608174926
+  },
+  "metrics_after_default_warmup": {
+    "VP": 11,
+    "VN": 4027503,
+    "FP": 228575,
+    "FN": 2030305,
+    "accuracy": 0.6406715837410127,
+    "precision": 4.812193222682054e-05,
+    "recall": 5.417875838046885e-06,
+    "f1": 9.739244996020192e-06
+  },
+  "warmup_end": 50000,
+  "attacks_trained": null,
+  "engine": "moa",
+  "per_type_post_warmup": {
+    "Benign": {
+      "n": 4256078,
+      "alarm_rate": 0.0537055476896805
+    },
+    "Botnet": {
+      "n": 2030316,
+      "alarm_rate": 5.417875838046885e-06
+    }
+  },
+  "elapsed_s": 2030.9370176250231,
+  "adwin_changes": 869,
+  "paper": {
+    "VP": 2088551,
+    "VN": 3440093,
+    "FP": 6796,
+    "FN": 800954,
+    "accuracy": 0.8725,
+    "precision": 0.9967,
+    "recall": 0.7228,
+    "f1": 0.8379,
+    "elapsed_s": 2895.26
+  }
+}

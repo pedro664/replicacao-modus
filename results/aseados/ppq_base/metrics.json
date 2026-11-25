@@ -1,0 +1,127 @@
+{
+  "args": {
+    "dataset": "aseados",
+    "name": "ppq_base",
+    "order": null,
+    "variant": "paper",
+    "classes": "ddos",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed_q",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null,
+    "label_in_stream": false,
+    "engine": "numpy",
+    "pad_class_dim": false,
+    "window_s": null,
+    "warmup_adaptive": false,
+    "warmup_min": 5000,
+    "warmup_stable": 5000,
+    "train_cap": null,
+    "cap_key": "dst",
+    "frozen": false,
+    "norm_freeze": false
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "proto",
+    "length",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "pad_class_dim": false,
+    "window_s": null,
+    "min_window_mass": 50,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000,
+    "warmup_adaptive": false,
+    "warmup_min": 5000,
+    "warmup_max": 50000,
+    "warmup_stable": 5000,
+    "warmup_delta": 0.002,
+    "train_cap": null,
+    "train_cap_key": "dst",
+    "train_cap_q": 0.99,
+    "frozen": false,
+    "frozen_calib": 0.2,
+    "frozen_q": 0.999
+  },
+  "metrics_total": {
+    "VP": 22,
+    "VN": 255758,
+    "FP": 5039,
+    "FN": 51443,
+    "accuracy": 0.8191198416714169,
+    "precision": 0.0043469670025686625,
+    "recall": 0.0004274749829981541,
+    "f1": 0.0007784028588614089
+  },
+  "metrics_post_warmup": {
+    "VP": 22,
+    "VN": 205758,
+    "FP": 5039,
+    "FN": 51443,
+    "accuracy": 0.7846352121161282,
+    "precision": 0.0043469670025686625,
+    "recall": 0.0004274749829981541,
+    "f1": 0.0007784028588614089
+  },
+  "score_metrics": {
+    "roc_auc": 0.17877377652405269,
+    "pr_auc": 0.11886565420054562
+  },
+  "metrics_after_default_warmup": {
+    "VP": 22,
+    "VN": 205758,
+    "FP": 5039,
+    "FN": 51443,
+    "accuracy": 0.7846352121161282,
+    "precision": 0.0043469670025686625,
+    "recall": 0.0004274749829981541,
+    "f1": 0.0007784028588614089
+  },
+  "warmup_end": 50000,
+  "attacks_trained": 0.9995725250170019,
+  "engine": "numpy",
+  "per_type_post_warmup": {
+    "Benign": {
+      "n": 210797,
+      "alarm_rate": 0.0239045147701343
+    },
+    "DDoS": {
+      "n": 51465,
+      "alarm_rate": 0.0004274749829981541
+    }
+  },
+  "elapsed_s": 248.06387312500738,
+  "adwin_changes": 15,
+  "paper": {
+    "VP": 51465,
+    "VN": 260406,
+    "FP": 391,
+    "FN": 0,
+    "accuracy": 0.9987,
+    "precision": 0.9925,
+    "recall": 1.0,
+    "f1": 0.9962,
+    "elapsed_s": 189.02
+  }
+}

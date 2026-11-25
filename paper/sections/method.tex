@@ -1,0 +1,102 @@
+\section{\modusp: Melhorias Implementadas}
+\label{sec:method}
+
+A Etapa~1 propôs quatro melhorias: normalização online, atributos de taxa por janela, aquecimento
+adaptativo e teste com ataques não-DDoS. As duas primeiras formam o que chamamos de \modus+.
+Elas já haviam sido implementadas e avaliadas, mas com o vazamento de rótulo descrito na
+Seção~\ref{sec:replication}. A Etapa~1 também identificou o envenenamento por \emph{flood} como
+limitação estrutural e apontou três defesas como trabalho futuro. Nesta etapa implementamos o
+aquecimento adaptativo e as três defesas, e reavaliamos tudo sem vazamento. O conjunto resultante é
+o \modusp. Cada componente é independente e pode ser ligado por uma opção da linha de comando, o
+que permite a ablação da Seção~\ref{sec:results}.
+
+\subsection{HST sem vazamento, com controle da janela}
+\label{sec:hstnp}
+O HSTrees do MOA só troca a janela de referência por contagem de instâncias treinadas, normaliza o
+score pelo tamanho nominal $W$ e não expõe as massas. Reimplementamos o HST em
+\texttt{numpy}, fiel ao MOA:
+(i) o gerador \texttt{java.util.Random} reproduzido bit a bit, com a mesma ordem de sorteios;
+(ii) o mesmo espaço de trabalho por dimensão, $[s-2\max(s,1-s),\, s+2\max(s,1-s)]$ com
+$s\sim U[0,1]$;
+(iii) um detalhe do MOA que não está no artigo original do HST: os vetores de mínimo e máximo do
+espaço de trabalho são compartilhados entre os nós, e o construtor restaura o máximo após criar o
+filho esquerdo, mas não restaura o mínimo após o direito;
+(iv) a mesma fase inicial, em que as primeiras 51 instâncias entram direto na referência e o score
+vale 0,5.
+Um script de validação compara os scores com os do MOA, instância a instância, em três
+configurações; a maior diferença é $2{,}2\times10^{-16}$. Com uma dimensão constante no lugar do
+rótulo, o motor novo reproduz exatamente as predições do MOA sem rótulo. A vantagem prática é que
+o score de uma janela inteira pode ser calculado em lote, pois a referência $r$ não muda entre
+trocas; só a decisão de treinar é sequencial. Nas rodadas do \modusp\ a dimensão do rótulo é
+simplesmente omitida.
+
+\subsection{Atributos e normalização (\modus+)}
+Os quatro atributos do artigo recebem $\log(1+x)$ no tamanho e Min-Max \emph{causal}: cada coluna
+é escalada pelo mínimo e máximo observados até a instância atual, o que elimina o
+\emph{data snooping} do Min-Max global. Somam-se duas taxas: pacotes por segundo no último segundo,
+global e por IP de destino, ambas com $\log(1+x)$. A taxa dá ao detector a noção de \emph{volume},
+que é o que caracteriza um DDoS e que os quatro atributos originais não capturam.
+
+O Min-Max causal tem um efeito colateral: um \emph{flood} com taxa inédita estica o máximo da
+coluna e comprime todo o tráfego normal para perto de zero. A opção de \textbf{normalização
+congelada} fixa mínimo e máximo ao fim das $B$ primeiras instâncias. Depois disso, valores fora do
+intervalo ficam fora de $[0,1]$, o que o HST suporta, pois seu espaço de trabalho vai de cerca de
+$-1$ a $2$.
+
+\subsection{Melhoria 1: janela de referência em tempo}
+No HST original a referência é trocada a cada $W$ instâncias treinadas. Num \emph{flood} de 17 mil
+pacotes/s e $W=250$, isso dá 70 trocas por segundo: basta uma fração do ataque passar pelo limiar
+para que, em milissegundos, a referência seja feita só de ataque. No \modusp\ a referência é trocada
+a cada $T$ segundos do relógio do fluxo (adotamos $T=10$\,s a priori). A troca só ocorre se a janela
+que termina tiver ao menos 50 instâncias treinadas; caso contrário, ela continua acumulando. A
+normalização do score passa a usar a massa real da referência, e não um $W$ nominal. Assim o ritmo
+de adaptação do modelo deixa de ser ditado pela taxa de chegada, que é justamente o que o atacante
+controla.
+
+\subsection{Melhoria 2: aquecimento adaptativo}
+O \modus\ treina às cegas nas $B=50.000$ primeiras instâncias, um número que corresponde a 15\,s no
+CTU-13 e a quatro dias no ASEADOS. No \modusp\ um ADWIN ($\delta=0{,}002$) monitora o score do HST
+durante o aquecimento. O aquecimento termina na primeira instância $t \geq B_{\min}$ que esteja
+$B_{\mathrm{est}}$ instâncias sem mudança detectada, com teto em $B_{\max}$. Usamos
+$B_{\min}=B_{\mathrm{est}}=5.000$ e $B_{\max}=50.000$, o valor do artigo. O critério não usa rótulos.
+
+\subsection{Melhoria 3: teto de treino por intervalo}
+Treinar só o que foi predito como benigno não limita \emph{quanto} se treina. No \modusp, a cada
+segundo, no máximo $c$ instâncias por IP de destino podem treinar o modelo e entrar na janela $S$
+do limiar. As demais são pontuadas e classificadas normalmente, mas descartadas do treino. O teto
+$c$ é o percentil 99 das contagens por (segundo, destino) observadas no aquecimento, sem rótulos.
+Um \emph{flood} contra um alvo contribui no máximo com $c$ instâncias por segundo, por mais
+intenso que seja.
+
+\subsection{Melhoria 4: modelo de referência congelado}
+Ao fim do aquecimento, um segundo HST (outra semente) é construído com os primeiros 80\% do
+aquecimento e nunca mais é atualizado. Seu limiar $\tau_f$ é o quantil 0,999 dos seus scores nos
+20\% finais do aquecimento, que ele não viu. Uma instância é ataque se o modelo adaptativo
+\emph{ou} o congelado disparar, e só treina o modelo adaptativo se nenhum dos dois disparar.
+O modelo congelado é a âncora que não pode ser envenenada. O adaptativo continua acompanhando a
+deriva legítima, mas não consegue mais ``aprender'' um ataque que o congelado ainda reconhece como
+anômalo. O custo esperado é mais falsos positivos quando o tráfego legítimo muda muito em relação
+ao aquecimento.
+
+\begin{algorithm}[t]
+\caption{Laço do \modusp\ (por instância $x_t$, no instante $\mathit{ts}_t$)}
+\label{alg:modusp}
+\begin{algorithmic}[1]
+\small
+\Require HST adaptativo $H$, janela $T$, teto $c$, HST congelado $F$ e limiar $\tau_f$ (após o aquecimento)
+\If{$\lfloor \mathit{ts}_t/T \rfloor$ mudou \textbf{e} $|l_H| \geq 50$} \State $H.r \gets H.l$; $H.l \gets 0$ \EndIf
+\State $s \gets H.\mathrm{score}(x_t)$;\ $s_f \gets F.\mathrm{score}(x_t)$
+\If{aquecendo} \State treina $H$; $S \gets S \cup \{s\}$; atualiza ADWIN com $s$
+  \If{$t\geq B_{\min}$ e ADWIN estável há $B_{\mathrm{est}}$ (ou $t = B_{\max}$)} \State fim do aquecimento: calcula $c$, constrói $F$ e $\tau_f$ \EndIf
+\Else
+  \State $\tau \gets \max(\tau_{\min}, \tilde{S} + \alpha\,\mathrm{MAD}(S))$
+  \If{$s > \tau$ \textbf{ou} $s_f > \tau_f$} \State \textbf{alarme} \Comment{não treina}
+  \ElsIf{treinos de $\mathrm{dst}(x_t)$ neste segundo $< c$} \State treina $H$ com $x_t$; $S \gets S \cup \{s\}$
+  \EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+O Algoritmo~\ref{alg:modusp} resume o laço. Todas as decisões em $t$ dependem só de
+$x_1,\dots,x_t$: o método continua de passagem única e causal. As opções são independentes; com
+todas desligadas, o laço é o do \modus.

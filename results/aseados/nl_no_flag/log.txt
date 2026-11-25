@@ -1,0 +1,17 @@
+run=nl_no_flag dataset=aseados features=paper preset=aseados order=None variant=paper classes=ddos norm=global n=312262 ataques=51465
+aquecimento: 0 ataques nas primeiras 50000 instâncias
+atributos: ['sport', 'dport', 'proto', 'length'] (ADWIN em length)
+config: {'hst_window': 2500, 'hst_trees': 150, 'hst_depth': 12, 'hst_size_limit': 0.1, 'seed': 1, 'adwin_delta': 0.001, 'use_drift_flag': False, 'alpha': 8.0, 'tau_min': 0.75, 'tau_max': 0.95, 'mad_window': 5000, 'n_min': 1000, 'tau_min_quantile': None, 'warmup': 50000, 'label_in_stream': False}
+ADWIN: 0 mudanças detectadas
+  50000/312262 instâncias  (18.4s)
+  100000/312262 instâncias  (35.4s)
+  150000/312262 instâncias  (53.5s)
+  200000/312262 instâncias  (69.5s)
+  250000/312262 instâncias  (91.3s)
+  300000/312262 instâncias  (99.7s)
+total (convenção do artigo): VP=0 VN=260253 FP=544 FN=51465 acc=0.8334 prec=0.0000 rec=0.0000 f1=0.0000
+pós-aquecimento: VP=0 VN=210253 FP=544 FN=51465 acc=0.8017 prec=0.0000 rec=0.0000 f1=0.0000
+scores pós-aquecimento: AUC-ROC=0.1116 PR-AUC=0.1876
+  Benign                   n=   210,797  alarmes=  0.26%
+  DDoS                     n=    51,465  alarmes=  0.00%
+tempo: 101.7s (artigo: 189.02s)

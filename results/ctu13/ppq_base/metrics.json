@@ -1,0 +1,128 @@
+{
+  "args": {
+    "dataset": "ctu13",
+    "name": "ppq_base",
+    "order": null,
+    "variant": "paper",
+    "classes": "ddos",
+    "features": "plus",
+    "rate_window": 1.0,
+    "preset": "fixed_q",
+    "norm": null,
+    "no_flag": false,
+    "seed": 1,
+    "warmup": 50000,
+    "tau_min": null,
+    "label_in_stream": false,
+    "engine": "numpy",
+    "pad_class_dim": false,
+    "window_s": null,
+    "warmup_adaptive": false,
+    "warmup_min": 5000,
+    "warmup_stable": 5000,
+    "train_cap": null,
+    "cap_key": "dst",
+    "frozen": false,
+    "frozen_q": 0.999,
+    "norm_freeze": false
+  },
+  "norm": "none",
+  "features": [
+    "sport",
+    "dport",
+    "length",
+    "proto",
+    "rate_all",
+    "rate_dst"
+  ],
+  "config": {
+    "hst_window": 250,
+    "hst_trees": 25,
+    "hst_depth": 15,
+    "hst_size_limit": 0.1,
+    "seed": 1,
+    "pad_class_dim": false,
+    "window_s": null,
+    "min_window_mass": 50,
+    "adwin_delta": 0.001,
+    "use_drift_flag": true,
+    "alpha": 5.189028910303929,
+    "tau_min": 0.5,
+    "tau_max": null,
+    "mad_window": 5000,
+    "n_min": 1000,
+    "tau_min_quantile": 0.999,
+    "warmup": 50000,
+    "warmup_adaptive": false,
+    "warmup_min": 5000,
+    "warmup_max": 50000,
+    "warmup_stable": 5000,
+    "warmup_delta": 0.002,
+    "train_cap": null,
+    "train_cap_key": "dst",
+    "train_cap_q": 0.99,
+    "frozen": false,
+    "frozen_calib": 0.2,
+    "frozen_q": 0.999
+  },
+  "metrics_total": {
+    "VP": 7,
+    "VN": 4173217,
+    "FP": 132860,
+    "FN": 2030310,
+    "accuracy": 0.6586118224340216,
+    "precision": 5.2684263210579e-05,
+    "recall": 3.447737471537696e-06,
+    "f1": 6.4719413605130215e-06
+  },
+  "metrics_post_warmup": {
+    "VP": 7,
+    "VN": 4123218,
+    "FP": 132860,
+    "FN": 2030309,
+    "accuracy": 0.6558966873536721,
+    "precision": 5.2684263210579e-05,
+    "recall": 3.4477391696661996e-06,
+    "f1": 6.471944352373331e-06
+  },
+  "score_metrics": {
+    "roc_auc": 0.0014890851417419277,
+    "pr_auc": 0.1826062178919865
+  },
+  "metrics_after_default_warmup": {
+    "VP": 7,
+    "VN": 4123218,
+    "FP": 132860,
+    "FN": 2030309,
+    "accuracy": 0.6558966873536721,
+    "precision": 5.2684263210579e-05,
+    "recall": 3.4477391696661996e-06,
+    "f1": 6.471944352373331e-06
+  },
+  "warmup_end": 50000,
+  "attacks_trained": 0.9999965522608303,
+  "engine": "numpy",
+  "per_type_post_warmup": {
+    "Benign": {
+      "n": 4256078,
+      "alarm_rate": 0.031216533155642354
+    },
+    "Botnet": {
+      "n": 2030316,
+      "alarm_rate": 3.4477391696661996e-06
+    }
+  },
+  "elapsed_s": 1275.6299352080096,
+  "adwin_changes": 869,
+  "paper": {
+    "VP": 2088551,
+    "VN": 3440093,
+    "FP": 6796,
+    "FN": 800954,
+    "accuracy": 0.8725,
+    "precision": 0.9967,
+    "recall": 0.7228,
+    "f1": 0.8379,
+    "elapsed_s": 2895.26
+  }
+}

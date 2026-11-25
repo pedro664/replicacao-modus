@@ -8,3 +8,6 @@ __pycache__/
 
 # Scores por instância (até centenas de MB por rodada; regeneráveis com run.py)
 results/**/scores.csv.gz
+
+# link simbólico para a pasta de dados (fora do OneDrive)
+data

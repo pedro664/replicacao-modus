@@ -1,0 +1,26 @@
+run=ppq_base dataset=ctu13 features=plus preset=fixed_q order=None variant=paper classes=ddos norm=none n=6336394 ataques=2030317
+aquecimento: 1 ataques nas primeiras 50000 instâncias
+atributos: ['sport', 'dport', 'length', 'proto', 'rate_all', 'rate_dst'] (ADWIN em length)
+config: {'hst_window': 250, 'hst_trees': 25, 'hst_depth': 15, 'hst_size_limit': 0.1, 'seed': 1, 'pad_class_dim': False, 'window_s': None, 'min_window_mass': 50, 'adwin_delta': 0.001, 'use_drift_flag': True, 'alpha': 5.189028910303929, 'tau_min': 0.5, 'tau_max': None, 'mad_window': 5000, 'n_min': 1000, 'tau_min_quantile': 0.999, 'warmup': 50000, 'warmup_adaptive': False, 'warmup_min': 5000, 'warmup_max': 50000, 'warmup_stable': 5000, 'warmup_delta': 0.002, 'train_cap': None, 'train_cap_key': 'dst', 'train_cap_q': 0.99, 'frozen': False, 'frozen_calib': 0.2, 'frozen_q': 0.999}
+ADWIN: 869 mudanças detectadas
+fim do aquecimento em t=50000
+piso automático (quantil 0.999): 0.5966
+  500013/6336394 instâncias  (315.4s)
+  1000035/6336394 instâncias  (438.5s)
+  1500259/6336394 instâncias  (537.8s)
+  2000491/6336394 instâncias  (635.9s)
+  2500685/6336394 instâncias  (723.2s)
+  3000713/6336394 instâncias  (822.3s)
+  3500719/6336394 instâncias  (908.0s)
+  4000808/6336394 instâncias  (970.3s)
+  4501032/6336394 instâncias  (1035.3s)
+  5001221/6336394 instâncias  (1094.0s)
+  5501412/6336394 instâncias  (1155.1s)
+  6001594/6336394 instâncias  (1210.9s)
+total (convenção do artigo): VP=7 VN=4173217 FP=132860 FN=2030310 acc=0.6586 prec=0.0001 rec=0.0000 f1=0.0000
+pós-aquecimento: VP=7 VN=4123218 FP=132860 FN=2030309 acc=0.6559 prec=0.0001 rec=0.0000 f1=0.0000
+scores pós-aquecimento: AUC-ROC=0.0015 PR-AUC=0.1826
+ataques usados no treino (envenenamento): 100.00%
+  Benign                   n= 4,256,078  alarmes=  3.12%
+  Botnet                   n= 2,030,316  alarmes=  0.00%
+tempo: 1275.6s (artigo: 2895.26s)

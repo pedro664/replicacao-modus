@@ -1,0 +1,49 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{cite}
+\usepackage{amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{figs/}}
+\floatname{algorithm}{Algoritmo}
+\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+\renewcommand{\algorithmicensure}{\textbf{Saída:}}
+\newcommand{\modus}{\textsc{Modus}}
+\newcommand{\modusp}{\textsc{Modus}++}
+
+\begin{document}
+
+\title{Replicação e Extensão do \modus: Vazamento de Rótulo, Envenenamento por \emph{Flood} e
+Defesas para Detecção Online Não Supervisionada de DDoS}
+
+\author{
+\IEEEauthorblockN{Pedro Henrique, Rodrigo Amaral, Emanuell da Luz}
+\IEEEauthorblockA{Centro de Informática (CIn) -- Universidade Federal de Pernambuco (UFPE)\\
+Recife, PE, Brasil}
+}
+
+\maketitle
+
+\input{sections/abstract}
+\input{sections/intro}
+\input{sections/background}
+\input{sections/replication}
+\input{sections/method}
+\input{sections/setup}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+\end{document}

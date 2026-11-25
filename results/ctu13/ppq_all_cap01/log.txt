@@ -1,0 +1,28 @@
+run=ppq_all_cap01 dataset=ctu13 features=plus preset=fixed_q order=None variant=paper classes=ddos norm=none n=6336394 ataques=2030317
+aquecimento: 1 ataques nas primeiras 50000 instâncias
+atributos: ['sport', 'dport', 'length', 'proto', 'rate_all', 'rate_dst'] (ADWIN em length)
+config: {'hst_window': 250, 'hst_trees': 25, 'hst_depth': 15, 'hst_size_limit': 0.1, 'seed': 1, 'pad_class_dim': False, 'window_s': 10.0, 'min_window_mass': 50, 'adwin_delta': 0.001, 'use_drift_flag': True, 'alpha': 5.189028910303929, 'tau_min': 0.5, 'tau_max': None, 'mad_window': 5000, 'n_min': 1000, 'tau_min_quantile': 0.999, 'warmup': 50000, 'warmup_adaptive': True, 'warmup_min': 5000, 'warmup_max': 50000, 'warmup_stable': 5000, 'warmup_delta': 0.002, 'train_cap': 0.1, 'train_cap_key': 'dst', 'train_cap_q': 0.99, 'frozen': True, 'frozen_calib': 0.2, 'frozen_q': 0.999}
+ADWIN: 869 mudanças detectadas
+fim do aquecimento em t=35318
+piso automático (quantil 0.999): 0.5000
+teto de treino: 39.8 instâncias/s por dst
+modelo congelado: 28254 instâncias, limiar 0.7770 (quantil 0.999 de 7064)
+  523715/6336394 instâncias  (98.7s)
+  1045624/6336394 instâncias  (143.4s)
+  1574913/6336394 instâncias  (180.7s)
+  2080895/6336394 instâncias  (220.9s)
+  2668459/6336394 instâncias  (260.9s)
+  3207430/6336394 instâncias  (302.4s)
+  3828788/6336394 instâncias  (338.6s)
+  4555466/6336394 instâncias  (368.9s)
+  5059552/6336394 instâncias  (388.9s)
+  5573437/6336394 instâncias  (412.2s)
+  6141549/6336394 instâncias  (431.9s)
+total (convenção do artigo): VP=1914391 VN=3912890 FP=393187 FN=115926 acc=0.9197 prec=0.8296 rec=0.9429 f1=0.8826
+pós-aquecimento: VP=1914391 VN=3877572 FP=393187 FN=115926 acc=0.9192 prec=0.8296 rec=0.9429 f1=0.8826
+scores pós-aquecimento: AUC-ROC=0.9041 PR-AUC=0.7084
+após t=50000 (comum): prec=0.8301 rec=0.9429 f1=0.8829
+ataques usados no treino (envenenamento): 0.05%
+  Benign                   n= 4,270,759  alarmes=  9.21%
+  Botnet                   n= 2,030,317  alarmes= 94.29%
+tempo: 447.1s (artigo: 2895.26s)

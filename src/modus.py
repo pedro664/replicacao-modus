@@ -80,6 +80,8 @@ class ModusConfig:
     tau_min_quantile: float | None = None
     # Aquecimento
     warmup: int = 50_000
+    # Vazamento do MOA: o rótulo verdadeiro entra como atributo do HST (ver run_modus)
+    label_in_stream: bool = False
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -122,7 +124,11 @@ def run_modus(X: np.ndarray, y: np.ndarray, drift_values: np.ndarray, cfg: Modus
         names = list(feature_names)
     log(f"ADWIN: {int(flags.sum())} mudanças detectadas")
 
-    stream = NumpyStream(Xa.astype(np.float64), y.astype(int), feature_names=names)
+    # O HSTrees do MOA sorteia cortes em instance.numAttributes(), que inclui o atributo de classe:
+    # com o rótulo verdadeiro no fluxo, o score depende do rótulo (vazamento). Por padrão o fluxo
+    # leva um rótulo constante; label_in_stream=True reproduz as rodadas antigas.
+    y_stream = y.astype(int) if cfg.label_in_stream else np.zeros(len(y), dtype=int)
+    stream = NumpyStream(Xa.astype(np.float64), y_stream, feature_names=names)
     hst = HalfSpaceTrees(stream.get_schema(), random_seed=cfg.seed, window_size=cfg.hst_window,
                          number_of_trees=cfg.hst_trees, max_depth=cfg.hst_depth,
                          size_limit=cfg.hst_size_limit)
