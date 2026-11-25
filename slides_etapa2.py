@@ -464,7 +464,7 @@ text(s, 5.33, 3.5, 4.33, 0.3, "Próximos passos", size=15, color="FFFFFF", bold=
 bullets(s, 5.33, 3.86, 4.33, 1.5, [
     "Limiar sem rótulos que não fique no fio da navalha",
     "Ataques web no Edge-IIoT (XSS, SQL) e mais sementes",
-    "Artigo IEEE (8 páginas) até 25/11",
+    "Artigo IEEE escrito (10 páginas): falta a revisão final",
 ], size=12, color="FFFFFF", marker="FFFFFF")
 
 # encerramento vai para o fim

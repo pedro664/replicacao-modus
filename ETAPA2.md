@@ -255,7 +255,7 @@ repositório está no `CLAUDE.md` e no `README.md`.
 **Próximos passos:**
 - Uma forma de posicionar a linha de alarme que não dependa de sorte nem das respostas.
 - Melhorar a detecção de ataques web discretos (XSS, SQL injection) e repetir com mais sementes.
-- Escrever o artigo final (padrão IEEE, 8 páginas, até 25/11).
+- Artigo final (padrão IEEE) já escrito, com 10 páginas: falta só a revisão final dos autores.
 
 ---
 
