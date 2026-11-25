@@ -1,0 +1,32 @@
+\section{Conclusão}
+\label{sec:conclusion}
+
+Replicamos o \modus\ a partir do texto do artigo e implementamos as melhorias propostas na primeira
+etapa do trabalho. O percurso produziu três resultados.
+
+O primeiro é um defeito de avaliação. O \texttt{HSTrees} do MOA usa o atributo de classe como
+dimensão de corte, e o uso padrão do CapyMOA entrega o rótulo verdadeiro ao detector. No
+ASEADOS-SDN-IoT, o F1 de 99,73\% da nossa réplica cai para 0,00\% quando o rótulo sai do fluxo. O
+efeito depende da base, o que o torna fácil de não ver.
+
+O segundo é um defeito de projeto. Sem o vazamento, o treino seletivo do \modus\ e da sua versão
+normalizada deixa de 99,96\% a 100\% do ataque entrar no modelo nas três bases. O \emph{flood}
+vira o perfil normal, e a AUC do score fica abaixo de 50\%. Onde o \modus\ original ainda detecta,
+é pela raridade do protocolo do ataque, e não pelo volume.
+
+O terceiro é o \modusp, com quatro defesas causais e sem rótulos. Com uma única configuração, o F1
+vai de 0,08\% para 62,99\% no ASEADOS e de 76,66\% para 91,17\% no Edge-IIoTset, onde o método
+passa a detectar os \emph{floods} TCP e HTTP que o original perdia. No CTU-13 as defesas reduzem o
+envenenamento de 100\% para 2,41\%, mas o F1 a priori é 0,01\%, porque o score do ataque fica
+milésimos abaixo do limiar. Ataques não-DDoS continuam, em sua maioria, sem detecção.
+
+As limitações apontam os próximos passos. A calibração do limiar sem rótulos é a principal: nas
+duas bases em que medimos, o modelo congelado separa as classes com AUC de 94\% e a regra de quantil
+desperdiça a separação. A decisão por janela e por destino é o caminho que consideramos mais
+promissor. Faltam ainda a renovação periódica do modelo congelado, a avaliação com mais sementes
+nas bases grandes e bases com ataques curtos ou de baixa taxa.
+
+Para quem avalia detectores de anomalia em fluxos, ficam três recomendações práticas: verificar
+que o resultado não muda com rótulos constantes; reportar a fração do ataque usada no treino, e
+não só o F1; e fixar uma configuração única para todas as bases antes de olhar os resultados. O
+código, os \emph{logs} e as métricas de todas as rodadas estão no repositório do trabalho.

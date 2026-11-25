@@ -28,7 +28,8 @@ fração de DDoS que não é TCP;
 \begin{table}[t]
 \centering
 \caption{Replicação do \modus\ (F1 \%, convenção do artigo). ``Com rótulo'': o HST do MOA recebe o
-rótulo verdadeiro como atributo (Etapa~1). ``Sem rótulo'': fluxo corrigido.}
+rótulo verdadeiro como atributo (Etapa~1). ``Sem rótulo'': fluxo corrigido. $^{*}$Medido no conjunto
+sem a duplicação do tráfego normal (19,6 milhões de quadros), no qual a rodada com rótulo também dá 84,42.}
 \label{tab:repl}
 \begin{tabular}{lccc}
 \toprule
@@ -36,7 +37,7 @@ Base & Artigo & Com rótulo & Sem rótulo \\
 \midrule
 ASEADOS-SDN-IoT & 99,62 & 99,73 & \textbf{0,00} \\
 CTU-13 (C11)    & 83,79 & 64,55 & 64,55 \\
-Edge-IIoTset    & 81,24 & 84,33 & \EDGENL \\
+Edge-IIoTset    & 81,24 & 84,33 & 84,42$^{*}$ \\
 \bottomrule
 \end{tabular}
 \end{table}

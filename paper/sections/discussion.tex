@@ -1,0 +1,99 @@
+\section{Discussão}
+\label{sec:discussion}
+
+\subsection{O que a replicação mostra sobre o \modus}
+A replicação separa três afirmações que o artigo original apresenta juntas. A primeira é que o
+método atinge os F1 reportados. Isso se reproduz em duas das três bases, mas no ASEADOS só com o
+rótulo no fluxo, e no Edge-IIoTset com VP e FN idênticos em um conjunto que conta o tráfego normal
+duas vezes. A segunda é que a detecção é volumétrica. Não é: sem normalização, o HST responde à
+raridade do protocolo, e o recall de 73,16\% no Edge-IIoTset é exatamente a fração de pacotes DDoS
+que não são TCP. A terceira é que a \emph{flag} de mudança de conceito informa o detector. Ela muda
+um pacote em 19,6 milhões.
+
+Não afirmamos que os autores usaram o rótulo. O código não é público, e o texto não diz como o
+fluxo foi montado. O que os dados sustentam é mais restrito: com o HST do MOA e o uso padrão do
+CapyMOA, o rótulo chega ao detector, e o número do ASEADOS se reproduz com ele e não se
+reproduz sem ele. A coincidência justifica pedir aos autores a publicação do código.
+
+\subsection{Um vazamento que a API não mostra}
+O vazamento descrito na Seção~\ref{sec:leak} não exige erro do usuário. O \texttt{NumpyStream} do
+CapyMOA recebe \texttt{X} e \texttt{y}, como qualquer fluxo de avaliação, e o \texttt{HSTrees}
+aparece na biblioteca como detector de anomalia de uma classe. Nada na interface indica que o
+atributo de classe entra nas dimensões de corte. O efeito também não é uniforme, e isso o torna
+difícil de notar: no CTU-13 as predições com e sem rótulo são idênticas, porque os atributos já
+separam as classes. Um teste em uma só base poderia concluir que não há problema.
+
+Duas verificações simples teriam revelado o defeito, e as recomendamos para qualquer avaliação de
+detector não supervisionado: (i) repetir a rodada com rótulos constantes ou embaralhados, pois o
+resultado não pode mudar; (ii) pontuar o mesmo vetor de atributos com rótulos diferentes. Ambas se
+enquadram no que Arp \emph{et al.}~\cite{arp2022dos} chamam de checagem de \emph{label leakage}, e
+custam uma rodada a mais.
+
+\subsection{Envenenamento sem adversário}
+A literatura de envenenamento costuma supor um atacante que conhece o detector e injeta tráfego
+aos poucos~\cite{rubinstein2009antidote}. Nossos resultados mostram um caso mais simples e mais
+comum: o próprio ataque volumétrico, sem nenhuma intenção de evasão, envenena o modelo. Bastam
+duas condições, ambas presentes no \modus: o detector treina com o que classifica como benigno, e
+o ritmo de atualização do modelo é medido em instâncias. Um \emph{flood} produz instâncias na
+taxa que quiser; logo, controla o relógio do modelo.
+
+Daí a utilidade de reportar a fração do ataque usada no treino. O F1 diz se o detector acertou; a
+fração treinada diz se ele continuará acertando. No CTU-13, por exemplo, o modelo congelado
+sozinho tem o melhor F1 a priori (69,59\%), mas 43,58\% do \emph{flood} treina o modelo adaptativo.
+Já a combinação de janela em tempo e teto tem F1 nulo e um modelo íntegro, com AUC de 96,47\%. Só
+o F1 esconderia essa diferença.
+
+\subsection{O papel de cada defesa}
+As quatro defesas agem em pontos diferentes, e as bases as exercitam de modo diferente. A janela em
+tempo e o teto limitam a \emph{velocidade} com que o ataque entra no modelo. São decisivos no
+CTU-13, onde o ataque chega a 20 mil pacotes por segundo, e quase irrelevantes no ASEADOS, onde o
+DDoS tem cerca de 46 fluxos por segundo e o teto de 24,9 por destino quase não atua: com e sem
+ele, o envenenamento é de 51,24\% e 52,93\%. O modelo congelado age sobre a \emph{decisão}: ele mantém uma referência que o ataque não
+alcança. É decisivo no ASEADOS e necessário em todas as bases, pois sem ele o limiar adaptativo
+não dispara mesmo quando o score separa bem as classes. O aquecimento adaptativo decide \emph{com
+que dados} o congelado é construído, e seu efeito no ASEADOS foi maior do que esperávamos.
+
+O modelo congelado tem um custo conhecido, e os dados o confirmam. Ele pressupõe aquecimento limpo:
+no ASEADOS com cinco classes, em que há ataques desde o início do fluxo, sua AUC é 50,05\%. E ele não
+acompanha a deriva do tráfego legítimo: os falsos positivos sobem para 3,14\% no Edge-IIoTset e
+17,88\% no ASEADOS com cinco classes. Em operação real, um modelo congelado precisaria ser refeito
+periodicamente, em janelas validadas como limpas, o que reintroduz alguma supervisão.
+
+\subsection{O limiar é o gargalo}
+O resultado mais consistente entre as bases é a distância entre separabilidade e decisão. No
+ASEADOS o score congelado tem AUC de 94,44\% e o recall é 47,07\%. No CTU-13 a AUC é 93,95\% e o
+recall é 0,00\%. Nos dois casos o modelo ordena bem as instâncias, e a regra de limiar, um quantil
+alto dos scores do aquecimento, corta no lugar errado. Um quantil estima a cauda do tráfego
+\emph{benigno}; ele nada diz sobre onde o ataque vai cair. Com 1.331 a 7.064 instâncias de
+calibração, o quantil 0,999 é determinado por uma a sete observações, o que também explica a
+variação de $\tau_f$ entre sementes.
+
+Vemos três caminhos, todos sem rótulos: (i) decidir por janela, e não por instância, exigindo que
+uma fração dos scores de um destino passe de um quantil mais baixo, o que explora a persistência do
+\emph{flood}; (ii) combinar os scores dos dois modelos em vez de fazer um \emph{ou} lógico entre
+dois limiares; (iii) calibrar o limiar com a teoria de valores extremos sobre a cauda do
+aquecimento, em vez de um quantil empírico. Não testamos nenhum deles.
+
+\subsection{Ameaças à validade}
+\textbf{Ordem do ASEADOS.} A ordem ``temporal'' que usamos é a que reproduz o artigo, e ela vem de
+uma leitura errada das datas. Na ordem cronológica correta, o DDoS ocupa os primeiros 50 mil
+fluxos, e nenhum método que aprende o normal no início do fluxo pode detectá-lo. Os resultados do
+ASEADOS valem para a ordem do artigo, não para a base como foi coletada.
+
+\textbf{Rótulos por pacote.} No CTU-13 o rótulo vem do IP infectado, e no Edge-IIoTset, do arquivo
+de captura. Pacotes legítimos de uma máquina infectada, ou tráfego de fundo dentro de um
+\emph{pcap} de ataque, contam como ataque. Isso limita o recall alcançável e afeta todos os métodos
+igualmente.
+
+\textbf{Uma rodada por base.} Só o ASEADOS foi rodado com três sementes. No CTU-13 e no
+Edge-IIoTset há uma rodada por configuração. Dada a variação de dez pontos entre sementes no
+ASEADOS, diferenças pequenas entre variantes não devem ser interpretadas.
+
+\textbf{Parâmetros a priori.} A configuração \texttt{fixed\_q} e os parâmetros novos foram fixados
+antes das rodadas da Etapa~2, mas por nós, que já conhecíamos as bases da Etapa~1. As rodadas de
+sensibilidade estão identificadas como tal, e o resultado negativo do CTU-13 foi mantido como
+resultado principal para não esconder essa dependência.
+
+\textbf{Bases de laboratório.} As três bases têm ataques longos, intensos e de vetor único, depois
+de um período benigno. Ataques curtos, de baixa taxa ou presentes desde o início não estão
+representados.

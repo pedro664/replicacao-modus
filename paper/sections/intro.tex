@@ -1,0 +1,64 @@
+\section{Introdução}
+\label{sec:intro}
+
+Ataques distribuídos de negação de serviço (DDoS) continuam entre as ameaças mais frequentes à
+disponibilidade de serviços em rede, e os relatórios de operadoras de mitigação registram novos
+vetores a cada trimestre~\cite{cloudflare2026}. Detectores supervisionados dependem de tráfego
+rotulado, que envelhece rápido e não cobre vetores novos. Por isso há interesse em detectores
+\emph{online} e \emph{não supervisionados}, que aprendem o perfil do tráfego legítimo durante a
+operação e apontam o que foge dele~\cite{mirsky2018kitsune}. Métodos de isolamento, como o
+Isolation Forest~\cite{liu2008iforest} e sua variante para fluxos, as Half-Space
+Trees~\cite{tan2011hst}, são a base usual desses detectores, pois têm custo constante por instância.
+
+O \modus~\cite{modus2026}, publicado no SBSeg 2026, segue essa linha. O método combina um detector
+de mudança de conceito (ADWIN), um HST e um limiar baseado em mediana e MAD, e reporta F1 de
+99,62\%, 83,79\% e 81,24\% em três bases públicas. O código dos autores não está disponível. Este
+artigo relata uma replicação independente, feita em duas etapas na disciplina de Auditoria e
+Segurança de Sistemas de Informação do CIn/UFPE.
+
+Na Etapa~1 reimplementamos o método a partir do texto e comparamos os resultados com os do artigo.
+Dois dos três números se reproduziram, e a análise apontou fragilidades: a \emph{flag} de mudança
+de conceito não altera as predições, o HST sem normalização separa por protocolo e não por volume,
+e o limiar depende de um piso ajustado por base. A etapa terminou com quatro melhorias propostas e
+três defesas indicadas como trabalho futuro.
+
+Na Etapa~2, objeto principal deste artigo, implementamos as melhorias. Para controlar a janela de
+referência do HST, reescrevemos o algoritmo em \texttt{numpy}, bit a bit igual ao do MOA. A
+reescrita revelou um defeito que muda a leitura da Etapa~1: o \texttt{HSTrees} do MOA inclui o
+atributo de classe entre as dimensões de corte. Quando o fluxo carrega o rótulo verdadeiro, o
+detector ``não supervisionado'' usa o rótulo. A réplica dos 99,62\% no ASEADOS-SDN-IoT só existe
+com esse vazamento.
+
+Removido o vazamento, o detector falha por outro motivo, mais geral. O treino seletivo, que só
+aprende com o que foi predito como benigno, não protege o modelo: basta o início do ataque passar
+pelo limiar para que o \emph{flood}, por ser denso, domine a massa do HST e vire o perfil de
+referência. A partir daí o ataque é o tráfego \emph{mais normal} do fluxo.
+
+\subsection*{Contribuições}
+\begin{itemize}
+\item \textbf{Replicação independente} do \modus\ nas três bases do artigo, com a reconstrução
+exata do número de instâncias de cada uma e a identificação de inconsistências nos rótulos do
+CTU-13 e na composição do Edge-IIoTset (Seção~\ref{sec:replication}).
+\item \textbf{Vazamento de rótulo no \texttt{HSTrees} do MOA}: descrição do mecanismo, teste direto
+e medição do efeito por base. No ASEADOS o F1 vai de 99,73\% para 0,00\% (Seção~\ref{sec:leak}).
+\item \textbf{HST em \texttt{numpy} equivalente ao do MOA}, com diferença máxima de
+$2{,}2\times10^{-16}$ nos scores, sem a dimensão do rótulo e com controle da janela de referência
+(Seção~\ref{sec:hstnp}).
+\item \textbf{Medição do envenenamento por \emph{flood}}: a fração do ataque usada no treino do
+modelo, reportada em todas as rodadas (Seção~\ref{sec:results}).
+\item \textbf{\modusp}: quatro defesas causais e sem rótulos, avaliadas com uma única configuração
+fixada a priori, com ablação, sementes e sensibilidade (Seções~\ref{sec:method}
+e~\ref{sec:results}).
+\end{itemize}
+
+Os resultados são mistos, e os reportamos assim. O \modusp\ leva o F1 de 0,08\% para 62,99\% no
+ASEADOS e de 76,66\% para 91,17\% no Edge-IIoTset com 14 tipos de ataque. No CTU-13 o
+envenenamento praticamente desaparece, mas o F1 a priori fica em 0,01\%, porque o score do
+\emph{flood} fica milésimos abaixo do limiar. Todos os números deste artigo vêm de rodadas salvas
+no repositório do trabalho, com configuração, \emph{log} e métricas.
+
+O restante do texto está organizado assim. A Seção~\ref{sec:background} apresenta os fundamentos e
+o \modus. A Seção~\ref{sec:replication} resume a replicação e descreve o vazamento. A
+Seção~\ref{sec:method} detalha o \modusp, e a Seção~\ref{sec:setup}, a metodologia. A
+Seção~\ref{sec:results} traz os resultados, a Seção~\ref{sec:discussion} os discute, e a
+Seção~\ref{sec:conclusion} conclui.

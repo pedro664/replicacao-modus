@@ -157,7 +157,8 @@ def fig_ablation():
         for i, v in enumerate(f1):
             ax.text(i, (0 if np.isnan(v) else v) + 2, "n/r" if np.isnan(v) else f"{v:.0f}", ha="center",
                     va="bottom", fontsize=6, color=INK)
-        ax.set_xticks(x, [v[1] for v in variants], fontsize=5.5)
+        ax.set_xticks(x, [v[1].replace("\n", " ") for v in variants], fontsize=6, rotation=40, ha="right",
+                      rotation_mode="anchor")
         ax.set_title(title, loc="left")
         ax.set_ylim(0, 100)
     axes[0].set_ylabel("F1 a priori (%)")

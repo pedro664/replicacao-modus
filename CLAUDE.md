@@ -121,9 +121,8 @@ está em `results/<base>/<nome>/metrics.json` -> `config`.
 
 ## Pendências
 
-- Artigo (`paper/`): faltam `sections/{abstract,intro,results,discussion,conclusion}.tex`.
-  Em `sections/replication.tex` falta trocar `\EDGENL` por 84,42. Depois, compilar e conferir o
-  mínimo de 8 páginas.
+- Artigo (`paper/`): completo, compila em 10 páginas (`cd paper && tectonic main.tex`). Falta a
+  revisão final dos autores.
 - Modelos treinados ainda não são salvos em disco (podem ser refeitos com a mesma semente).
 
 ## Convenções

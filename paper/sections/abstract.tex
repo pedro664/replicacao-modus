@@ -1,0 +1,21 @@
+\begin{abstract}
+O \modus\ é um detector online e não supervisionado de DDoS que combina ADWIN, Half-Space Trees
+(HST) e um limiar robusto, com F1 reportado de até 99,62\%. Este trabalho replica o método a partir
+do texto do artigo, em três bases públicas, e implementa as melhorias propostas na primeira etapa
+da replicação. Ao reescrever o HST, encontramos um vazamento de rótulo: o \texttt{HSTrees} do MOA
+conta o atributo de classe como dimensão de corte. Com o rótulo no fluxo, reproduzimos os 99,62\%
+do ASEADOS-SDN-IoT (obtivemos 99,73\%); sem ele, o F1 cai para 0,00\%. Sem o vazamento aparece o
+problema real: o \emph{flood} entra no treino seletivo e vira o perfil normal, com 99,96\% a
+100\% do ataque usado no treino. Propomos o \modusp, que soma a uma versão normalizada do método
+quatro defesas, todas causais e sem rótulos: janela de referência em tempo, aquecimento adaptativo,
+teto de treino por destino e um modelo de referência congelado. Com uma única configuração, fixada
+antes das rodadas, o F1 sobe de 0,08\% para 62,99\% no ASEADOS e de 76,66\% para 91,17\% no
+Edge-IIoTset com 14 tipos de ataque. No CTU-13 o envenenamento cai de 100\% para 2,41\%, mas o F1
+a priori fica em 0,01\%: o \emph{flood} pontua logo abaixo do limiar congelado. A calibração do
+limiar sem rótulos é a limitação que permanece.
+\end{abstract}
+
+\begin{IEEEkeywords}
+DDoS, detecção de anomalias, fluxos de dados, Half-Space Trees, envenenamento, vazamento de rótulo,
+reprodutibilidade
+\end{IEEEkeywords}
